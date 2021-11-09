@@ -1,0 +1,14 @@
+__pycache__
+/data/quora/
+/data/scan/scan_new_splits.zip
+/data/scan/length_split.zip
+/data/BBN
+/models/
+/outputs/
+/tensorboard/
+*.DS_Store
+/local/
+.ipynb_checkpoints
+__MACOSX
+/data/BBN/*
+/src/dev/
