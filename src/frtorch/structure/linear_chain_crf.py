@@ -180,7 +180,8 @@ class LinearChainCRF(nn.Module):
                     proposal='softmax',
                     transition_proposal='none',
                     sample_size=1,
-                    topk_sum=False
+                    topk_sum=False,
+                    return_correction=False
                     ):
     """Sample states for
     * Randomized Forward
@@ -215,7 +216,12 @@ class LinearChainCRF(nn.Module):
     inspect['p_e_mean'] = emission_potentials.mean()
 
     ## get proposal distribution from emission potential 
-    proposal_p = F.softmax(emission_potentials, -1) 
+    if(proposal == 'softmax'):
+      proposal_p = F.softmax(emission_potentials, -1) 
+    elif(proposal == 'uniform'):
+      proposal_p = 1. + torch.zeros_like(emission_potentials)
+    else:
+      raise NotImplementedError('proposal %s not implemented' % proposal)
 
     # use transition as prior 
     if(transition_proposal == 'none'):
@@ -241,13 +247,6 @@ class LinearChainCRF(nn.Module):
       ).view(batch_size, max_len, -1)
 
     ## get renormalized proposal distribution 
-    if(proposal == 'softmax'):
-      pass
-    elif(proposal == 'uniform'):
-      proposal_p = 1. + torch.zeros_like(proposal_p)
-    else:
-      raise NotImplementedError('proposal %s not implemented' % proposal)
-    
     # [B * T, V]
     proposal_renorm = tmu.batch_index_fill(
       proposal_p.view(batch_size * max_len, -1), 
@@ -271,7 +270,9 @@ class LinearChainCRF(nn.Module):
     ##  debias sampled emission
     sampled_index = sampled_index.view(batch_size, max_len, sample_size)
     sample_log_prob = sample_log_prob.view(batch_size, max_len, sample_size)
-    sampled_emission -= sample_log_prob + np.log(sample_size)
+    correction = sample_log_prob + np.log(sample_size)
+    sampled_emission -= correction
+    
 
     ## Combine the emission 
     if(topk_sum):
@@ -281,12 +282,15 @@ class LinearChainCRF(nn.Module):
       # [B, T, top_k + sample_K]
       combined_index = sum_index
       num_state_sampled = sum_size
+      correction = torch.zeros(batch_size, max_len, sum_size).to(device)
     else:
       # [B, T, top_k + sample_K]
       combined_emission = torch.cat([sum_emission, sampled_emission], dim=-1) 
       # [B, T, top_k + sample_K]
       combined_index = torch.cat([sum_index, sampled_index], dim=-1) 
       num_state_sampled = sum_size + sample_size
+      correction = torch.cat(
+        [torch.zeros(batch_size, max_len, sum_size).to(device), correction], -1)
 
     ## get the transition 
     # [B, T, top_k + sample_K, state_size]
@@ -334,8 +338,11 @@ class LinearChainCRF(nn.Module):
       batch_size, max_len, num_state_sampled, num_state_sampled).to(device)
     log_potentials[:, 1:] =\
       sampled_transition + combined_emission[:, 1:].unsqueeze(2)
-    return (combined_index, combined_emission, sampled_states, log_potentials, 
-    inspect)
+
+    ret = [combined_index, combined_emission, sampled_states, log_potentials, 
+    inspect]
+    if(return_correction): ret.append(correction)
+    return ret
 
   def forward_approx(self, 
                      state_matrix, 
@@ -862,27 +869,77 @@ class LinearChainCRF(nn.Module):
 
     return sample, sample_log_prob
 
-  # def entropy_approx(self, 
-  #                state_matrix, 
-  #                emission_potentials, 
-  #                seq_lens, 
-  #                sum_size, 
-  #                proposal='softmax',
-  #                transition_proposal='none',
-  #                sample_size=1
-  #                ):
-  #   """Approx entropy. Also based on sampled forward -- yet this one does not quite work"""
-  #   _, combined_emission, _, log_potentials =\
-  #     self.sample_states(state_matrix, 
-  #                        emission_potentials, 
-  #                        seq_lens, 
-  #                        sum_size, 
-  #                        proposal,
-  #                        transition_proposal,
-  #                        sample_size)
+  def entropy_approx(self, 
+                 state_matrix, 
+                 emission_potentials, 
+                 seq_lens, 
+                 sum_size, 
+                 proposal='softmax',
+                 transition_proposal='none',
+                 sample_size=1,
+                 topk_sum=False
+                 ):
+    """Approx entropy. Also based on sampled forward"""
+    batch_size = emission_potentials.size(0)
+    max_len = emission_potentials.size(1)
+    # num_state = emission_potentials.size(2)
+    device = emission_potentials.device
 
-  #   H = self.entropy(None, combined_emission, seq_lens, log_potentials)
-  #   return H
+    # step 1. sample states, keep a record of proposal probability 
+    sampled_index, combined_emission, _, log_potentials, _, correction =\
+    self.sample_states(
+      state_matrix, emission_potentials, seq_lens, sum_size, proposal,
+      transition_proposal, sample_size, topk_sum, 
+      return_correction=True)
+
+    # step 2. sampled forward computation
+    alpha, log_Z = self.forward_sum(
+      None, combined_emission, seq_lens, log_potentials)
+
+    # step 3. backward entropy, correct bias again.
+    if(topk_sum):
+      num_state = sum_size
+    else:
+      num_state = sum_size + sample_size
+    H = torch.zeros(batch_size, max_len, num_state).to(device)
+    for t in range(max_len - 1):
+      # [B, from, to]
+      log_potentials_ = log_potentials[:, t+1, :, :]
+
+      #### correct transition factor 
+      # [B, 1, to]
+      log_potentials_ += correction[:, t+1].unsqueeze(1)
+      alpha_t = alpha[:, t] + correction[:, t]
+      alpha_t_1 = alpha[:, t+1] + correction[:, t + 1]
+
+      # log_w = log_potentials[:, t+1, :, :] +\
+      #   alpha[:, t, :].view(batch_size, num_state, 1) -\
+      #   alpha[:, t+1, :].view(batch_size, 1, num_state)
+      log_w = log_potentials_ +\
+        alpha_t.view(batch_size, num_state, 1) -\
+        alpha_t_1.view(batch_size, 1, num_state)
+
+      # [B, from, to], conditional transition prob q(z_t = i | z_t+1 = j)
+      w = log_w.exp()
+
+      #### correct the recursion
+      before_sum = w * (H[:, t, :].view(batch_size, num_state, 1) - log_w)
+      before_sum = before_sum / correction[:, t].unsqueeze(2).exp()
+
+      # now corrected entropy recursion
+      H[:, t+1, :] = torch.sum(before_sum, dim=1)
+    
+    last_alpha = tmu.batch_gather_last(alpha, seq_lens)
+    H_last = tmu.batch_gather_last(H, seq_lens)
+    correction_T = tmu.batch_gather_last(correction, seq_lens)
+    last_alpha = last_alpha + correction_T
+
+    # correct last step recursion 
+    log_p_T = last_alpha - log_Z.view(batch_size, 1)
+    p_T = log_p_T.exp()
+    H_total = p_T * (H_last - log_p_T) / correction_T.exp()
+    H_total = H_total.sum(dim = -1)
+    return H_total
 
   def entropy(self, transition_potentials, emission_potentials, seq_lens, 
     log_potentials=None, mem_efficient=False):
@@ -898,7 +955,6 @@ class LinearChainCRF(nn.Module):
     Returns:
       H_total: the entropy, type=torch.Tensor(float), size=[batch]
     """
-    # NOTE: this implementation is WORNG. Need to double check
     if(log_potentials is not None and mem_efficient):
       raise ValueError(
         'log_potentials is not None, cannot use mem_efficient mode')

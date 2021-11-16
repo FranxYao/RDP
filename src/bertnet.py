@@ -37,6 +37,7 @@ class BertNetModel(nn.Module):
                exact_rsample=True, 
                latent_scale=0.1, 
                sum_size=10,
+               sample_size=10,
                proposal='softmax',
                device='cpu',
                vocab_size=30522,
@@ -49,7 +50,8 @@ class BertNetModel(nn.Module):
                word_dropout_decay=False,
                dropout=0.0,
                potential_normalization=False,
-               potential_scale=1.0
+               potential_scale=1.0,
+               topk_sum=False
                ):
     """
     Args:
@@ -61,6 +63,7 @@ class BertNetModel(nn.Module):
     self.exact_rsample = exact_rsample
     self.latent_scale = latent_scale
     self.sum_size = sum_size
+    self.sample_size = sample_size
     self.proposal = proposal
     self.device = device
     self.num_state = num_state
@@ -70,12 +73,19 @@ class BertNetModel(nn.Module):
     self.ent_approx = ent_approx
     self.use_bow_loss = use_bow_loss
     self.word_dropout_decay = word_dropout_decay
+    self.topk_sum=topk_sum
+    if(topk_sum == True): print('Using topk sum!')
     # self.potential_normalization = potential_normalization
     # self.potential_scale = potential_scale
     
 
     if(self.encoder_type == 'bert'):
+      print('Using pretrained BERT')
       self.encoder = BertModel.from_pretrained('bert-base-uncased')
+    elif(self.encoder_type == 'bert_random'):
+      print('Using randomly initialized BERT')
+      config = BertConfig()
+      self.encoder = BertModel(config)
     else:
       raise NotImplementedError('LSTM encoder to yet implemented!')
 
@@ -110,35 +120,35 @@ class BertNetModel(nn.Module):
       self.state_matrix, self.state_matrix.transpose(1, 0))
     return self.state_matrix, transition
 
-  def weight_norm(self, x_emb):
-    """Normalize all embeddings to scaled unit vector
+  # def weight_norm(self, x_emb):
+  #   """Normalize all embeddings to scaled unit vector
     
-    Args:
-      x_emb: size=[batch, max_len, dim]
+  #   Args:
+  #     x_emb: size=[batch, max_len, dim]
 
-    Returns: 
-      state_matrix: size=[state, dim]
-      emission_seq: size=[batch, max_len, dim]
-      transition: size=[state, state] # could be large
-      emission: size=[batch, max_len, state]
-    """
-    if(self.crf_weight_norm == 'sphere'):
-      emission_seq = x_emb / torch.sqrt((x_emb ** 2).sum(-1, keepdim=True))
-      emission_seq = self.latent_scale * emission_seq
-      state_matrix = self.state_matrix /\
-        torch.sqrt((self.state_matrix ** 2).sum(-1, keepdim=True))
-      state_matrix = self.latent_scale * state_matrix
-    elif(self.crf_weight_norm == 'zscore'):
-      raise NotImplementedError('z score normalization not implemented!')
-    elif(self.crf_weight_norm == 'none'):
-      emission_seq = x_emb
-      state_matrix = self.state_matrix 
-    else:
-      raise ValueError('Invalid crf_weight_norm: %s' % self.crf_weight_norm)
+  #   Returns: 
+  #     state_matrix: size=[state, dim]
+  #     emission_seq: size=[batch, max_len, dim]
+  #     transition: size=[state, state] # could be large
+  #     emission: size=[batch, max_len, state]
+  #   """
+  #   if(self.crf_weight_norm == 'sphere'):
+  #     emission_seq = x_emb / torch.sqrt((x_emb ** 2).sum(-1, keepdim=True))
+  #     emission_seq = self.latent_scale * emission_seq
+  #     state_matrix = self.state_matrix /\
+  #       torch.sqrt((self.state_matrix ** 2).sum(-1, keepdim=True))
+  #     state_matrix = self.latent_scale * state_matrix
+  #   elif(self.crf_weight_norm == 'zscore'):
+  #     raise NotImplementedError('z score normalization not implemented!')
+  #   elif(self.crf_weight_norm == 'none'):
+  #     emission_seq = x_emb
+  #     state_matrix = self.state_matrix 
+  #   else:
+  #     raise ValueError('Invalid crf_weight_norm: %s' % self.crf_weight_norm)
 
-    transition = torch.matmul(state_matrix, state_matrix.transpose(1, 0))
-    emission = torch.matmul(emission_seq, state_matrix.transpose(1, 0))
-    return state_matrix, emission_seq, transition, emission
+  #   transition = torch.matmul(state_matrix, state_matrix.transpose(1, 0))
+  #   emission = torch.matmul(emission_seq, state_matrix.transpose(1, 0))
+  #   return state_matrix, emission_seq, transition, emission
 
   def prepare_dec_io(self, 
     z_sample_ids, z_sample_emb, sentences, x_lambd):
@@ -262,7 +272,9 @@ class BertNetModel(nn.Module):
       z_sample_emb = torch.matmul(z_sample_relaxed, self.state_matrix)
       ent = tmu.entropy(F.softmax(z_logits, dim=-1))
     elif(self.latent_type == 'sampled_gumbel_crf'):
-      state_matrix, emission_seq, transition, emission = self.weight_norm(x_emb)
+      # state_matrix, emission_seq, transition, emission = self.weight_norm(x_emb)
+      state_matrix = self.state_matrix 
+      emission = torch.matmul(x_emb, state_matrix.transpose(1, 0))
       if(self.exact_rsample):
         raise NotImplementedError('TODO: normalize transition')
         # z_sample, z_sample_relaxed = self.crf.rsample(
@@ -274,25 +286,29 @@ class BertNetModel(nn.Module):
         # NOTE: pay attention to the index transform here, see details in the 
         # implementation
         if(self.ent_approx == 'log_prob'):
-          _, _, _, z_sample, z_sample_emb, z_sample_log_prob, inspect =\
-            self.crf.rsample_approx(state_matrix, emission, x_lens, 
-              self.sum_size, self.proposal, tau=tau, return_ent=False) 
-          # use log prob as single estimate of entropy 
-          ent = -z_sample_log_prob.mean()
+          pass
+          # _, _, _, z_sample, z_sample_emb, z_sample_log_prob, inspect =\
+          #   self.crf.rsample_approx(state_matrix, emission, x_lens, 
+          #     self.sum_size, self.proposal, tau=tau, return_ent=False) 
+          # # use log prob as single estimate of entropy 
+          # ent = -z_sample_log_prob.mean()
         elif(self.ent_approx == 'softmax_sample'):
-          _, _, _, z_sample, z_sample_emb, z_sample_log_prob, inspect, ent =\
-            self.crf.rsample_approx(state_matrix, emission, x_lens, 
-              self.sum_size, self.proposal, tau=tau, return_ent=True) 
-          ent_sofmax = tmu.entropy(F.softmax(emission, -1), keepdim=True)
-          ent_sofmax = (ent_sofmax * attention_mask).sum()
-          ent_sofmax = ent_sofmax / attention_mask.sum()
+          pass
+          # _, _, _, z_sample, z_sample_emb, z_sample_log_prob, inspect, ent =\
+          #   self.crf.rsample_approx(state_matrix, emission, x_lens, 
+          #     self.sum_size, self.proposal, tau=tau, return_ent=True) 
+          # ent_sofmax = tmu.entropy(F.softmax(emission, -1), keepdim=True)
+          # ent_sofmax = (ent_sofmax * attention_mask).sum()
+          # ent_sofmax = ent_sofmax / attention_mask.sum()
 
-          # TODO: report the two terms respectively 
-          ent = ent.mean() + ent_sofmax
+          # # TODO: report the two terms respectively 
+          # ent = ent.mean() + ent_sofmax
         elif(self.ent_approx == 'softmax'):
           _, _, _, z_sample, z_sample_emb, z_sample_log_prob, inspect =\
             self.crf.rsample_approx(state_matrix, emission, x_lens, 
-              self.sum_size, self.proposal, tau=tau, return_ent=False) 
+              self.sum_size, self.proposal, sample_size=self.sample_size,
+              tau=tau, return_ent=False, 
+              topk_sum=self.topk_sum) 
           ent_sofmax = tmu.entropy(F.softmax(emission, -1), keepdim=True)
           ent_sofmax = (ent_sofmax * attention_mask).sum()
           ent = ent_sofmax / attention_mask.sum()
@@ -511,6 +527,8 @@ class BertNet(FRModel):
   def val_step(self, batch, n_iter, ei, bi, dataset):
     tau, x_lambd, z_lambd, z_beta = self.schedule(n_iter, ei, bi, 'val')
 
+    # TODO: likelihood of tail words
+
     with torch.no_grad():
       _, out_dict = self.model(
         x=batch['input_ids'].to(self.device),
@@ -607,6 +625,7 @@ class BertNet(FRModel):
     filename = output_path_base + '_epoch_%d_s2w.txt' % ei
     print('Writing state-word aggregated posterior to %s' % filename)
     with open(filename, 'w') as fd:
+      fd_sw = open(output_path_base + '_epoch_%d_s2w_sw.txt' % ei, 'w')
       z_freq_stats = self.aggregated_posterior.sum(-1)
       z_freq_stats_no_sw = np.array(self.aggregated_posterior)
       for w in self.stopwords:
@@ -619,18 +638,35 @@ class BertNet(FRModel):
       # TODO: draw state frequency figure with static / dynamic portion
       for i in tqdm(range(self.model.num_state)):
         z_i = ind[i]
+        # write state
         fd.write('state %d freq %d freq_no_sw %d\n' % 
           (z_i, z_freq_stats[z_i], z_freq_stats_no_sw[z_i]))
+        fd_sw.write('state %d freq %d freq_sw %d freq_no_sw %d\n' % 
+            (z_i, z_freq_stats[z_i], 
+             z_freq_stats[z_i] - z_freq_stats_no_sw[z_i], 
+             z_freq_stats_no_sw[z_i]
+            )
+          )
+        # write word
         w_ind = np.argsort(self.aggregated_posterior[z_i])[::-1]
         printed = 0
+        printed_sw = 0
         for w_ij in w_ind:
           w = dataset.tokenizer.ids_to_tokens[w_ij]
           w_freq = self.aggregated_posterior[z_i, w_ij]
+
+          if(printed_sw < 60):
+            fd_sw.write('%s %d | ' % (w, w_freq))
+            printed_sw += 1
+
           if(w not in self.stopwords and w_freq > 0):
             fd.write('%s %d | ' % (w, w_freq))
             printed += 1
           if(printed == 60): break
+
         fd.write('\n--------\n')
+        fd_sw.write('\n--------\n')
+    fd_sw.close()
 
     filename = output_path_base + '_epoch_%d_w2s.txt' % ei
     print('Writing word-state aggregated posterior to %s' % filename)
@@ -650,36 +686,36 @@ class BertNet(FRModel):
           if(printed == 50): break
         fd.write('\n--------\n')
 
-    # write state bigram 
-    _, z_bigram_nostop = self.state_ngram_stats(
-      outputs, dataset, ei, 2, output_path_base)
+    # # write state bigram 
+    # _, z_bigram_nostop = self.state_ngram_stats(
+    #   outputs, dataset, ei, 2, output_path_base)
 
-    filename = output_path_base + '_epoch_%d_s2s.txt' % ei
-    print('Writing state transition to %s' % filename)
-    # TODO: add bigram instances
-    with open(filename, 'w') as fd:
-      with torch.no_grad():
-        _, transition = self.model.get_transition()
-        transition = tmu.to_np(transition)
-        np.save(filename + '_epoch_%d_transition' % ei, transition)
-        ind = np.flip(np.argsort(transition, axis=-1), axis=-1)
-        for si in range(ind.shape[0]):
-          fd.write('state %d: \n' % si)
-          for i in ind[si][:10]:
-            fd.write('  to %d score %.4f\n    ' % (i, transition[si, i]))
-            transition_str = '%d-%d' % (si, i)
-            if(transition_str in z_bigram_nostop):
-              wb_list = z_bigram_nostop[transition_str]
-              for wb, f in wb_list:
-                fd.write('%s %d | ' % (wb, f))
-              fd.write('\n')
-            else: fd.write('not in frequent state bigram\n')
-          fd.write('\n----\n')
+    # filename = output_path_base + '_epoch_%d_s2s.txt' % ei
+    # print('Writing state transition to %s' % filename)
+    # # TODO: add bigram instances
+    # with open(filename, 'w') as fd:
+    #   with torch.no_grad():
+    #     _, transition = self.model.get_transition()
+    #     transition = tmu.to_np(transition)
+    #     np.save(filename + '_epoch_%d_transition' % ei, transition)
+    #     ind = np.flip(np.argsort(transition, axis=-1), axis=-1)
+    #     for si in range(ind.shape[0]):
+    #       fd.write('state %d: \n' % si)
+    #       for i in ind[si][:10]:
+    #         fd.write('  to %d score %.4f\n    ' % (i, transition[si, i]))
+    #         transition_str = '%d-%d' % (si, i)
+    #         if(transition_str in z_bigram_nostop):
+    #           wb_list = z_bigram_nostop[transition_str]
+    #           for wb, f in wb_list:
+    #             fd.write('%s %d | ' % (wb, f))
+    #           fd.write('\n')
+    #         else: fd.write('not in frequent state bigram\n')
+    #       fd.write('\n----\n')
 
-    # write state trigram 
-    _, _ = self.state_ngram_stats(outputs, dataset, ei, 3, output_path_base)
-    # write state four gram 
-    _, _ = self.state_ngram_stats(outputs, dataset, ei, 4, output_path_base)
+    # # write state trigram 
+    # _, _ = self.state_ngram_stats(outputs, dataset, ei, 3, output_path_base)
+    # # write state four gram 
+    # _, _ = self.state_ngram_stats(outputs, dataset, ei, 4, output_path_base)
     return scores
 
   def inspect_step(self, batch, out_dict, n_iter, ei, bi, dataset):

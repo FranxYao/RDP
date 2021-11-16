@@ -3,8 +3,7 @@ import torch
 import sys
 
 from data_utils import News20Data, BBNData, MSCOCOData
-# from crf_scale import CRFScaleModel, CRFScale
-# from bertnet import BertNetModel, BertNet
+from bertnet import BertNetModel, BertNet
 from gpt2net import GPT2NetModel, GPT2Net
 
 from frtorch import torch_model_utils as tmu
@@ -244,35 +243,37 @@ def main():
     # model = CRFScale(model_, args.learning_rate, args.validation_criteria)
   elif(args.model_name == 'bertnet'):
     print('Using model bertnet')
-    # model_ = BertNetModel(num_state=args.num_state, 
-    #                       transition_init_scale=args.transition_init_scale,
-    #                       exact_rsample=args.exact_rsample,
-    #                       sum_size=args.sum_size,
-    #                       device=args.device,
-    #                       use_latent_proj=args.use_latent_proj,
-    #                       latent_type=args.latent_type, 
-    #                       ent_approx=args.ent_approx,
-    #                       crf_weight_norm=args.crf_weight_norm,
-    #                       word_dropout_decay=args.word_dropout_decay,
-    #                       potential_normalization=args.potential_normalization,
-    #                       potential_scale=args.potential_scale,
-    #                       z_st=args.z_st
-    #                       ).to(args.device)
-    # model = BertNet(model=model_,
-    #                 learning_rate=args.learning_rate,
-    #                 validation_criteria=args.validation_criteria,
-    #                 num_batch_per_epoch=dataset.num_batch_per_epoch,
-    #                 x_lambd_warm_end_epoch=args.x_lambd_warm_end_epoch,
-    #                 x_lambd_warm_n_epoch=args.x_lambd_warm_n_epoch,
-    #                 tau_anneal_start_epoch=args.tau_anneal_start_epoch,
-    #                 tau_anneal_n_epoch=args.tau_anneal_n_epoch,
-    #                 tokenizer=dataset.tokenizer,
-    #                 z_beta_init=args.z_beta_init,
-    #                 z_beta_final=args.z_beta_final,
-    #                 anneal_beta_with_lambd=args.anneal_beta_with_lambd,
-    #                 save_mode=args.save_mode,
-    #                 anneal_z_prob=args.anneal_z_prob
-    #                 )
+    model_ = BertNetModel(num_state=args.num_state, 
+                          transition_init_scale=args.transition_init_scale,
+                          exact_rsample=args.exact_rsample,
+                          sum_size=args.sum_size,
+                          sample_size=args.sample_size,
+                          device=args.device,
+                          use_latent_proj=args.use_latent_proj,
+                          latent_type=args.latent_type, 
+                          ent_approx=args.ent_approx,
+                          crf_weight_norm=args.crf_weight_norm,
+                          word_dropout_decay=args.word_dropout_decay,
+                          potential_normalization=args.potential_normalization,
+                          potential_scale=args.potential_scale,
+                          topk_sum=args.topk_sum,
+                          # z_st=args.z_st
+                          ).to(args.device)
+    model = BertNet(model=model_,
+                    learning_rate=args.learning_rate,
+                    validation_criteria=args.validation_criteria,
+                    num_batch_per_epoch=dataset.num_batch_per_epoch,
+                    x_lambd_warm_end_epoch=args.x_lambd_warm_end_epoch,
+                    x_lambd_warm_n_epoch=args.x_lambd_warm_n_epoch,
+                    tau_anneal_start_epoch=args.tau_anneal_start_epoch,
+                    tau_anneal_n_epoch=args.tau_anneal_n_epoch,
+                    tokenizer=dataset.tokenizer,
+                    z_beta_init=args.z_beta_init,
+                    z_beta_final=args.z_beta_final,
+                    anneal_beta_with_lambd=args.anneal_beta_with_lambd,
+                    save_mode=args.save_mode,
+                    anneal_z_prob=args.anneal_z_prob
+                    )
   elif(args.model_name in ['gpt2net', 'gpt2net_lm', 'gpt2net_paraphrase']):
     print('Using model gptnet')
     model_ = GPT2NetModel(num_state=args.num_state,
