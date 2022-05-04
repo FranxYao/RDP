@@ -1,0 +1,942 @@
+state 837 cnt 2703 type=
+'s 1489 | 'm 319 | 've 279 | 're 222 | 'd 203 | 'll 191 | 
+
+state 684 cnt 2223 type=
+@ 1926 | same 297 | 
+
+state 727 cnt 1964 type=
+be 1309 | com 339 | been 316 | 
+
+state 1190 cnt 1596 type=
+do 638 | why 298 | does 278 | did 178 | thanks 119 | doing 85 | 
+
+state 1522 cnt 1523 type=
+n't 724 | do 710 | don 32 | did 25 | driver 19 | owner 13 | 
+
+state 1791 cnt 1203 type=
+can 959 | ca 123 | n't 121 | 
+
+state 491 cnt 1115 type=
+any 609 | not 347 | your 159 | 
+
+state 24 cnt 1103 type=
+three 141 | several 126 | 000 100 | 100 76 | four 56 | five 46 | million 45 | 200 37 | six 35 | 300 27 | 
+
+state 257 cnt 1030 type=
+these 516 | them 359 | those 155 | 
+
+state 833 cnt 1001 type=
+who 447 | which 437 | she 117 | 
+
+state 1562 cnt 975 type=
+n't 526 | does 212 | did 160 | would 77 | 
+
+state 1366 cnt 973 type=
+90 25 | 80 24 | 9 23 | 256 17 | 93 16 | 130 12 | 128 11 | 286 11 | 91 11 | 129 10 | 
+
+state 1828 cnt 963 type=
+0 168 | c 139 | b 67 | p. 63 | c. 55 | b. 42 | d. 39 | d 32 | p 27 | f 24 | 
+
+state 886 cnt 938 type=
+'s 525 | 'm 159 | ' 155 | 're 58 | 'll 41 | 
+
+state 1198 cnt 864 type=
+very 278 | must 149 | quite 116 | rather 94 | never 68 | can 50 | not 50 | much 36 | neither 23 | 
+
+state 1245 cnt 828 type=
+me 350 | them 193 | person 74 | him 70 | people 57 | everyone 45 | myself 39 | 
+
+state 133 cnt 793 type=
+am 363 | q 145 | l. 30 | l 25 | k. 22 | k 21 | q. 8 | khomeini 8 | amd 6 | lyuda 6 | 
+
+state 1466 cnt 776 type=
+use 301 | time 274 | up 201 | 
+
+state 643 cnt 771 type=
+n't 405 | is 137 | have 71 | are 67 | was 62 | has 29 | 
+
+state 1501 cnt 736 type=
+enough 144 | able 131 | expect 57 | need 43 | allow 36 | expected 20 | difficult 19 | unable 15 | allows 13 | allowed 12 | 
+
+state 1387 cnt 721 type=
+want 67 | due 63 | thanks 54 | need 33 | according 31 | opposed 16 | addition 12 | led 11 | listen 10 | happened 10 | 
+
+state 1806 cnt 717 type=
+motif 11 | steven 10 | darren 8 | theodore 6 | geoff 5 | joel 4 | labelled 4 | bony1 4 | khz 3 | grandparents 3 | 
+
+state 933 cnt 710 type=
+cleveland 40 | rutgers 25 | nhl 22 | doug 19 | espn 17 | larry 14 | seattle 13 | purdue 12 | pittsburgh 12 | harvard 11 | 
+
+state 1351 cnt 681 type=
+nntp 61 | w 45 | j. 40 | n 40 | r 33 | r. 30 | w. 25 | wpi 21 | n. 21 | j 18 | 
+
+state 528 cnt 651 type=
+[ 292 | ] 159 | ; 91 | } 72 | { 37 | 
+
+state 1818 cnt 650 type=
+x 335 | x. 31 | x11r5 22 | x11 22 | xt 16 | d 15 | xterm 14 | d. 9 | x11r4 7 | xfree86 7 | 
+
+state 1864 cnt 650 type=
+anyone 214 | least 90 | anybody 85 | might 78 | anything 63 | always 42 | rather 21 | somebody 18 | probably 14 | usually 13 | 
+
+state 1887 cnt 649 type=
+cramer 29 | atheists 17 | atheist 14 | zoo 7 | cipher 7 | disagree 6 | libertarians 6 | password 6 | clayton 5 | sincerely 5 | 
+
+state 27 cnt 623 type=
+9 39 | 80 31 | 92 10 | 70 9 | 93 9 | 59 9 | 650 9 | 950 8 | 617 8 | 90 7 | 
+
+state 872 cnt 613 type=
+entries 13 | exist 9 | angeles 7 | references 7 | predictions 6 | interviews 6 | commercials 5 | murdoch 5 | patents 5 | transactions 4 | 
+
+state 338 cnt 608 type=
+information 162 | say 147 | said 91 | saying 55 | says 33 | statement 31 | words 20 | data 19 | message 17 | note 17 | 
+
+state 439 cnt 605 type=
+re 367 | pre 15 | misc 15 | cor 8 | presume 6 | relativism 6 | remus 6 | cosy 5 | prescribe 4 | retinol 4 | 
+
+state 1402 cnt 578 type=
+between 167 | into 152 | under 125 | upon 40 | despite 22 | behind 22 | among 19 | regarding 16 | unlike 15 | 
+
+state 228 cnt 568 type=
+per 73 | univ 40 | multi 15 | un 15 | uni 10 | du 10 | unc 9 | unm 8 | unisql 7 | dividian 6 | 
+
+state 386 cnt 551 type=
+however 110 | anyway 30 | indeed 30 | today 27 | personally 24 | apparently 20 | otherwise 18 | specifically 16 | directly 13 | absolutely 13 | 
+
+state 1870 cnt 546 type=
+encryption 31 | user 29 | installed 26 | install 21 | mhz 20 | require 13 | recommend 12 | installing 10 | motorola 9 | prefer 9 | 
+
+state 1530 cnt 536 type=
+christians 32 | braves 14 | guns 14 | disks 11 | roads 9 | bruins 9 | dogs 8 | mets 8 | rangers 7 | cards 7 | 
+
+state 1081 cnt 530 type=
+me 398 | them 54 | him 50 | person 28 | 
+
+state 1143 cnt 513 type=
+koresh 55 | gif 34 | widget 28 | widgets 17 | geb 15 | risc 12 | dividian 10 | venera 7 | kosher 7 | ve 6 | 
+
+state 843 cnt 507 type=
+very 138 | much 125 | must 90 | never 57 | rather 30 | can 24 | not 24 | quite 19 | 
+
+state 1096 cnt 500 type=
+sure 101 | understand 63 | thank 37 | fact 31 | knew 20 | appreciated 19 | knows 13 | definition 11 | explain 11 | imagine 11 | 
+
+state 295 cnt 493 type=
+often 48 | greatly 30 | seriously 27 | unfortunately 27 | significantly 21 | generally 18 | basically 18 | slightly 15 | incredibly 14 | frequently 13 | 
+
+state 1378 cnt 491 type=
+know 301 | sure 107 | certain 35 | understand 24 | knows 24 | 
+
+state 1737 cnt 490 type=
+believe 242 | guess 61 | belief 31 | christianity 27 | facts 21 | believed 15 | believes 14 | morality 11 | theories 8 | gospel 8 | 
+
+state 1771 cnt 487 type=
+agree 48 | argument 39 | suggestions 22 | comment 21 | discussion 20 | argue 18 | arguments 16 | arguing 9 | testimony 9 | commentary 8 | 
+
+state 863 cnt 473 type=
+interested 80 | involved 34 | includes 28 | included 22 | called 20 | described 15 | include 14 | uses 14 | defined 13 | expressed 13 | 
+
+state 418 cnt 463 type=
+course 37 | however 26 | way 25 | know 14 | said 12 | yes 12 | year 8 | point 7 | past 7 | no 7 | 
+
+state 214 cnt 458 type=
+battery 18 | acceleration 7 | shuttle 7 | batteries 6 | marina 6 | satellites 6 | hydra 5 | satellite 5 | aurora 5 | balloon 5 | 
+
+state 105 cnt 456 type=
+performance 57 | actions 42 | function 36 | services 33 | experience 29 | practice 25 | operation 21 | activities 20 | traffic 18 | functions 17 | 
+
+state 594 cnt 450 type=
+buy 78 | sell 66 | bought 43 | cheap 37 | sold 36 | market 30 | expensive 21 | selling 19 | buying 17 | sale 15 | 
+
+state 740 cnt 438 type=
+change 104 | changed 48 | changes 31 | difference 25 | upgrade 20 | extensions 15 | changing 14 | contrast 13 | replacement 12 | extension 11 | 
+
+state 999 cnt 431 type=
+hate 17 | suicide 10 | punishment 9 | afraid 9 | blame 8 | violence 8 | victim 8 | crimes 8 | murders 7 | genocide 7 | 
+
+state 679 cnt 425 type=
+course 28 | question 12 | myers 8 | however 7 | reason 5 | questions 5 | villages 5 | files 5 | fact 5 | usage 5 | 
+
+state 1829 cnt 417 type=
+known 43 | pub 34 | similar 34 | related 28 | various 23 | relevant 15 | derived 13 | compare 12 | compared 11 | compatible 10 | 
+
+state 865 cnt 415 type=
+reply 46 | question 43 | address 43 | ask 37 | comments 21 | answer 21 | advance 10 | approach 10 | error 9 | interface 8 | 
+
+state 570 cnt 412 type=
+s. 111 | s 70 | t 44 | z 40 | t. 17 | z. 15 | s1 6 | s2 6 | tm 6 | zisfein 6 | 
+
+state 1638 cnt 412 type=
+think 202 | tell 55 | opinion 37 | opinions 28 | told 15 | roger 10 | thinking 9 | worried 8 | convinced 7 | thinks 6 | 
+
+state 1588 cnt 410 type=
+btw 31 | 05 11 | lc 11 | crypto 10 | dc 8 | 04 8 | lciii 8 | crypt 7 | 02 7 | gsh7w 6 | 
+
+state 1433 cnt 404 type=
+writes 146 | job 48 | learn 40 | jobs 29 | task 18 | learned 16 | teach 15 | learning 12 | taught 12 | students 11 | 
+
+state 905 cnt 402 type=
+serious 53 | interesting 13 | obvious 12 | curious 12 | important 12 | absurd 9 | objective 8 | honest 8 | essential 7 | practical 7 | 
+
+state 188 cnt 394 type=
+true 60 | found 59 | seen 40 | tried 39 | done 36 | made 27 | told 26 | left 21 | said 14 | used 12 | 
+
+state 128 cnt 391 type=
+removing 8 | remove 8 | containing 7 | considering 6 | controlling 5 | limiting 4 | promoting 4 | restricting 4 | involving 4 | preserving 4 | 
+
+state 1329 cnt 385 type=
+based 43 | made 21 | produced 15 | replaced 15 | handled 8 | handed 7 | corrected 6 | printed 6 | measured 6 | updated 5 | 
+
+state 1393 cnt 384 type=
+world 26 | usa 23 | religion 18 | georgia 15 | society 14 | culture 9 | christianity 9 | nation 7 | germany 7 | alaska 6 | 
+
+state 58 cnt 382 type=
+hi 26 | habs 14 | ha 10 | hoskyns 10 | kurds 9 | tu 8 | ho 7 | ga 7 | hulman 5 | hicnet 5 | 
+
+state 1187 cnt 382 type=
+someone 159 | certainly 62 | clearly 50 | obviously 48 | somewhere 27 | definitely 23 | hardly 13 | 
+
+state 1700 cnt 379 type=
+shipping 9 | picked 9 | thrown 8 | mounted 8 | throwing 8 | throw 7 | batting 7 | pulled 7 | worked 6 | threw 6 | 
+
+state 1639 cnt 378 type=
+1993 54 | 1992 35 | 1990 27 | andy 20 | 1991 19 | 1988 18 | 2000 17 | 1989 15 | andre 15 | 1982 12 | 
+
+state 1553 cnt 376 type=
+g. 50 | v. 33 | v 26 | g 22 | vga 21 | vlb 16 | xview 13 | v4 9 | vl 9 | v2 8 | 
+
+state 984 cnt 375 type=
+situation 42 | experience 20 | event 11 | facilities 10 | elsewhere 10 | initiative 9 | infrastructure 9 | activity 8 | instance 8 | advantage 6 | 
+
+state 1909 cnt 372 type=
+note 92 | reason 72 | consider 62 | considered 61 | mentioned 35 | considering 21 | noticed 17 | reasons 12 | 
+
+state 588 cnt 368 type=
+computer 90 | phone 83 | internet 65 | email 54 | 00 54 | telephone 22 | 
+
+state 1039 cnt 362 type=
+smith 15 | children 15 | chicago 9 | martin 8 | boston 7 | wilson 7 | george 7 | james 7 | buffalo 6 | harris 6 | 
+
+state 1178 cnt 360 type=
+flame 32 | attack 22 | attacks 20 | defend 18 | campaign 16 | offensive 14 | battle 13 | contest 13 | defense 12 | debate 11 | 
+
+state 339 cnt 356 type=
+access 91 | effects 36 | damage 26 | escape 18 | export 17 | input 16 | assault 16 | impact 14 | pressure 14 | infection 13 | 
+
+state 895 cnt 354 type=
+week 23 | weeks 17 | hours 15 | yesterday 14 | morning 10 | april 10 | saturday 9 | tuesday 8 | weekend 8 | revelation 7 | 
+
+state 300 cnt 352 type=
+stanford 46 | context 9 | subjective 8 | compression 7 | quantum 7 | coverage 7 | detectors 5 | irrelevant 5 | filter 5 | differential 5 | 
+
+state 1544 cnt 352 type=
+depending 16 | depends 10 | accuracy 7 | aspects 6 | rely 6 | howling 5 | dependent 5 | relied 4 | consequence 4 | maynard 4 | 
+
+state 364 cnt 347 type=
+heard 82 | hear 31 | looking 23 | features 17 | looks 16 | listen 14 | sense 14 | notice 11 | speak 8 | quiet 8 | 
+
+state 1620 cnt 345 type=
+atheists 24 | pointers 9 | ucs 9 | azerbaijanis 7 | gays 6 | manes 6 | homicides 5 | notebooks 5 | timers 5 | headaches 5 | 
+
+state 1858 cnt 341 type=
+above 123 | within 69 | inside 34 | below 34 | beyond 22 | bottom 18 | past 14 | behind 12 | nearby 8 | opposite 7 | 
+
+state 307 cnt 339 type=
+post 135 | posted 48 | court 37 | postscript 36 | posting 31 | posts 28 | thread 24 | 
+
+state 1318 cnt 335 type=
+escrow 35 | encrypted 20 | irq 15 | au 12 | esp 12 | escrowed 7 | ir 7 | esdi 7 | encrypt 6 | ot 6 | 
+
+state 665 cnt 334 type=
+regards 22 | morality 16 | nature 13 | respect 12 | sensitivity 10 | attitude 9 | behavior 8 | weakness 7 | orientation 6 | relativity 6 | 
+
+state 431 cnt 332 type=
+legal 25 | scientific 21 | economic 16 | cultural 12 | sexual 11 | practical 8 | moral 7 | mental 6 | environmental 6 | theoretical 6 | 
+
+state 749 cnt 325 type=
+wo 80 | n't 78 | win 69 | won 26 | wins 19 | winning 18 | lopez 6 | winbench 6 | boss 5 | winword 4 | 
+
+state 530 cnt 320 type=
+death 88 | life 81 | died 43 | murder 36 | die 34 | birth 13 | alive 9 | homicide 8 | suicide 8 | 
+
+state 1882 cnt 320 type=
+legal 20 | physical 15 | logical 14 | defensive 8 | molecular 6 | atomic 5 | mathematical 5 | emotional 5 | legality 5 | biological 5 | 
+
+state 1218 cnt 319 type=
+moral 49 | doubt 48 | prove 45 | admit 22 | unlikely 15 | doctrine 12 | proves 10 | convinced 8 | proven 8 | assertion 7 | 
+
+state 1951 cnt 318 type=
+colostate 15 | appressian 12 | cop 9 | ad 9 | abiding 8 | mph 7 | prophecies 6 | coprocessor 6 | ab4z 6 | repent 6 | 
+
+state 224 cnt 316 type=
+armed 15 | magnus 9 | regulated 7 | armored 6 | nervous 5 | immune 5 | allergic 5 | manipulate 4 | accidental 4 | explosive 4 | 
+
+state 663 cnt 314 type=
+place 116 | site 33 | position 32 | house 30 | spot 22 | seat 16 | located 15 | placed 11 | places 9 | land 8 | 
+
+state 675 cnt 308 type=
+saw 73 | cover 54 | host 41 | watch 38 | catch 19 | watching 19 | caught 16 | covered 14 | watched 12 | covering 6 | 
+
+state 92 cnt 307 type=
+distribution 71 | addition 20 | sale 17 | recall 11 | configuration 9 | list 8 | motif 7 | secession 5 | cache 5 | integration 5 | 
+
+state 143 cnt 307 type=
+analysis 22 | cambridge 15 | observations 13 | review 11 | interpretation 10 | observed 9 | observation 9 | noticed 8 | scholars 6 | astronomy 6 | 
+
+state 252 cnt 303 type=
+david 91 | mike 41 | jack 23 | jake 20 | davidians 15 | joe 13 | mark 12 | roy 9 | branch 9 | tony 8 | 
+
+state 633 cnt 303 type=
+os 54 | tom 28 | cal 14 | dec 13 | caltech 11 | cis 10 | oswego 9 | camaro 6 | decrypt 5 | osf 5 | 
+
+state 1886 cnt 303 type=
+bush 14 | mountain 13 | dale 11 | hill 10 | stone 9 | drop 8 | village 8 | valley 7 | fallacy 7 | dropped 6 | 
+
+state 650 cnt 300 type=
+baseball 23 | pitcher 11 | sox 11 | pittsburgh 9 | pitchers 8 | bruins 7 | angeles 7 | keller 6 | mario 6 | purdue 6 | 
+
+state 669 cnt 299 type=
+opinions 49 | willing 35 | convince 22 | supposed 15 | wants 12 | offers 11 | expect 9 | needs 9 | religions 8 | attempts 7 | 
+
+state 1851 cnt 296 type=
+utexas 11 | ah 10 | umich 9 | umd 9 | uh 9 | udel 9 | um 8 | umn 7 | obo 6 | obp 6 | 
+
+state 966 cnt 293 type=
+wrong 111 | error 32 | false 31 | fail 26 | failed 22 | fault 18 | fails 13 | errors 10 | accurate 10 | defects 6 | 
+
+state 566 cnt 289 type=
+etc 101 | dept 40 | sci 40 | edu 20 | correct 9 | berkeley 9 | dec 6 | agree 6 | tel 4 | stanford 3 | 
+
+state 1579 cnt 289 type=
+armenians 62 | armenia 33 | henrik 15 | serbs 15 | azerbaijan 13 | palestinians 13 | iran 12 | genocide 12 | israelis 10 | azerbaijani 10 | 
+
+state 212 cnt 288 type=
+bad 88 | lost 43 | lack 40 | loss 37 | lose 25 | losing 10 | destroyed 10 | terrible 8 | destruction 7 | lossy 5 | 
+
+state 824 cnt 288 type=
+church 87 | religious 60 | mother 38 | motherboard 21 | justice 18 | daughter 13 | easter 10 | motherboards 8 | pray 8 | faith 8 | 
+
+state 413 cnt 287 type=
+correct 72 | particular 59 | proper 34 | intended 32 | specific 27 | suitable 10 | certain 10 | exact 9 | incorrect 8 | adequate 8 | 
+
+state 712 cnt 287 type=
+: 20 | 1 19 | to 15 | from 14 | 2 14 | att 11 | for 11 | of 9 | it 9 | 3 7 | 
+
+state 1441 cnt 283 type=
+remove 8 | requires 8 | addressing 8 | require 7 | eliminate 7 | exceed 6 | deny 5 | uses 5 | rejecting 4 | prohibiting 4 | 
+
+state 608 cnt 282 type=
+choice 42 | option 38 | choose 38 | switch 29 | options 24 | judgement 16 | prefer 16 | choices 14 | chose 13 | chosen 12 | 
+
+state 1702 cnt 279 type=
+side 57 | sides 20 | edge 15 | bound 7 | depth 7 | corners 7 | identify 7 | axis 6 | midway 5 | crossroads 4 | 
+
+state 1623 cnt 276 type=
+nazi 34 | homosexual 29 | homosexuals 21 | mormons 15 | gay 13 | mormon 10 | zionism 9 | catholic 6 | heterosexual 6 | zionist 6 | 
+
+state 1779 cnt 274 type=
+sort 56 | definition 19 | kinds 16 | guilty 11 | types 11 | symptoms 9 | victims 8 | description 7 | modes 7 | sorts 7 | 
+
+state 1314 cnt 273 type=
+ie 32 | pp 26 | nt 26 | bnr 17 | gmt 12 | ch 10 | gm 8 | md 8 | rtsg 7 | chromium 7 | 
+
+state 642 cnt 272 type=
+against 141 | near 35 | among 34 | towards 27 | toward 24 | unto 11 | 
+
+state 581 cnt 269 type=
+evidence 107 | suggest 41 | indicates 14 | indicate 14 | suggested 13 | imply 13 | implies 12 | suggests 11 | suggesting 9 | indicated 7 | 
+
+state 1788 cnt 267 type=
+clh 24 | cl 9 | vram 8 | cray 7 | clesun 7 | cr 5 | br 5 | clarification 5 | crux 4 | crary 4 | 
+
+state 1921 cnt 267 type=
+scientists 11 | officials 9 | lawyers 8 | officers 8 | engineers 7 | individuals 7 | drivers 7 | researchers 6 | dealers 6 | experts 6 | 
+
+state 841 cnt 265 type=
+black 55 | white 47 | red 39 | blue 39 | grey 10 | brown 9 | gay 8 | grayscale 5 | evil 4 | pink 4 | 
+
+state 124 cnt 264 type=
+together 40 | along 40 | besides 24 | connection 19 | alone 10 | relationship 10 | associated 9 | existed 8 | happened 8 | survive 5 | 
+
+state 156 cnt 261 type=
+paper 39 | report 34 | reports 31 | published 23 | documents 21 | documentation 19 | papers 17 | document 17 | reported 8 | newspaper 8 | 
+
+state 938 cnt 261 type=
+auto 31 | super 15 | demo 12 | micro 11 | superstition 10 | microsystems 9 | autos 8 | ultra 8 | retrospect 6 | neo 5 | 
+
+state 449 cnt 255 type=
+science 66 | technology 59 | media 28 | technical 28 | tech 15 | art 13 | culture 10 | music 10 | technique 8 | arts 8 | 
+
+state 355 cnt 253 type=
+however 39 | though 27 | indeed 16 | instead 15 | today 13 | himself 12 | otherwise 9 | anyway 9 | although 8 | anymore 7 | 
+
+state 428 cnt 250 type=
+disks 16 | christians 9 | arabs 6 | boxes 5 | bars 5 | mets 5 | devils 4 | seas 4 | sins 4 | scratches 4 | 
+
+state 1260 cnt 248 type=
+salvation 15 | resurrection 13 | punishment 11 | sanctions 8 | survival 7 | revenge 6 | baptism 5 | recovery 5 | punished 5 | criticism 5 | 
+
+state 1931 cnt 242 type=
+move 38 | moving 17 | moved 14 | jump 10 | thrown 7 | pushed 7 | jumper 7 | slide 6 | moves 5 | lean 5 | 
+
+state 973 cnt 239 type=
+intrinsics 4 | reformers 4 | tubing 3 | behaves 3 | strayed 3 | bps 3 | batters 3 | cereals 3 | wats 3 | cbnewsj 3 | 
+
+state 1534 cnt 239 type=
+vote 19 | comments 16 | statements 13 | quote 12 | message 11 | sale 10 | negotiations 8 | presentations 7 | appeal 5 | traded 5 | 
+
+state 12 cnt 238 type=
+al 49 | de 42 | van 18 | alomar 10 | alot 10 | ad 6 | vandalizing 5 | admin 5 | algorythm 4 | aldridge 4 | 
+
+state 548 cnt 236 type=
+osmanli 5 | tremendously 4 | quantization 3 | analgesics 3 | jayne 3 | notoriously 3 | condone 3 | jan 2 | brittenson 2 | angeles 2 | 
+
+state 1072 cnt 235 type=
+monitors 17 | device 16 | laboratory 9 | battery 5 | ltd 5 | efficient 4 | garage 4 | noisy 4 | vibration 3 | harness 3 | 
+
+state 1101 cnt 235 type=
+bible 108 | scripture 24 | mathew 10 | psalm 7 | prophet 7 | biblical 6 | theology 6 | pray 5 | testament 5 | ezekiel 5 | 
+
+state 777 cnt 234 type=
+knowledge 17 | aware 12 | consists 8 | regardless 8 | habit 7 | dependent 7 | awareness 7 | insisting 7 | advantage 6 | context 6 | 
+
+state 597 cnt 231 type=
+ma 27 | po 12 | nubus 10 | mamma 5 | povray 5 | mussack 5 | pov 4 | lisp 4 | pocklington 4 | muenchen 4 | 
+
+state 1716 cnt 231 type=
+why 24 | question 12 | minutes 10 | opinion 9 | interested 8 | know 8 | details 8 | visible 6 | sense 6 | understand 6 | 
+
+state 416 cnt 230 type=
+recall 22 | 1919 16 | homosexuality 14 | 1920 14 | 1967 9 | 1914 6 | 1960s 5 | 1970 5 | keenan 5 | caldwell 4 | 
+
+state 1462 cnt 230 type=
+sorry 29 | hate 12 | dangerous 5 | crimes 5 | guilt 4 | abuse 4 | afraid 4 | horrible 4 | violence 4 | tragedy 4 | 
+
+state 122 cnt 229 type=
+window 43 | keys 33 | windows 13 | hall 13 | wall 11 | keyboard 11 | button 8 | room 7 | door 6 | hallam 5 | 
+
+state 1328 cnt 229 type=
+concerned 29 | question 25 | discussion 21 | questions 21 | discuss 21 | issues 17 | discussed 15 | discussions 11 | talks 10 | conversations 9 | 
+
+state 1823 cnt 228 type=
+difference 16 | differences 11 | depends 8 | annoying 7 | irrelevant 6 | comparisons 5 | mhz 5 | differ 4 | topics 4 | horne 4 | 
+
+state 621 cnt 226 type=
+act 40 | lies 28 | lie 21 | acts 21 | sitting 20 | sit 19 | lying 17 | standing 15 | sat 12 | borders 9 | 
+
+state 1088 cnt 226 type=
+inc 28 | rec 26 | sp 9 | acc 8 | recchi 5 | isscck 4 | spira 4 | decwindows 4 | reconsider 3 | spoofing 3 | 
+
+state 420 cnt 225 type=
+throw 28 | eat 26 | eating 15 | feds 13 | drunk 10 | drag 9 | cleaning 8 | feed 7 | heat 6 | sink 6 | 
+
+state 666 cnt 225 type=
+user 24 | myers 24 | client 9 | installed 9 | receiver 9 | dealer 8 | clients 8 | customer 7 | consumer 7 | shipped 5 | 
+
+state 1253 cnt 225 type=
+summary 25 | hide 18 | split 18 | spread 16 | shared 16 | distributed 14 | sample 14 | hidden 12 | scattered 9 | mix 6 | 
+
+state 1074 cnt 224 type=
+easily 43 | widely 15 | regularly 15 | deeply 10 | publicly 10 | commonly 9 | repeatedly 9 | freely 9 | successfully 9 | strongly 9 | 
+
+state 1535 cnt 224 type=
+similar 36 | latest 21 | different 16 | recent 15 | various 15 | multiple 13 | separate 12 | compared 12 | related 10 | comparable 8 | 
+
+state 1266 cnt 221 type=
+entry 30 | enter 18 | reached 16 | join 12 | advance 11 | fill 11 | occupied 11 | opening 10 | launched 9 | expand 6 | 
+
+state 402 cnt 220 type=
+ripem 15 | gballent 7 | ualberta 7 | uart 6 | vcr 5 | cursor 5 | shanahan 4 | smythe 4 | mayans 4 | deir 4 | 
+
+state 1038 cnt 220 type=
+changing 5 | moving 5 | parking 5 | voting 5 | judging 4 | cooling 4 | reaching 4 | calling 4 | facing 3 | lifting 3 | 
+
+state 1468 cnt 220 type=
+ice 16 | gas 14 | ground 14 | paint 10 | liquid 9 | copper 7 | metal 7 | land 7 | meat 5 | coffee 5 | 
+
+state 244 cnt 219 type=
+fi 23 | pixmap 7 | sparc 6 | fidonet 5 | circumcision 5 | sparcstation 4 | cica 4 | pem 4 | pex 3 | pihatie 3 | 
+
+state 1396 cnt 219 type=
+instead 35 | the 15 | one 12 | part 11 | some 11 | use 8 | university 8 | because 7 | members 6 | a 6 | 
+
+state 1413 cnt 219 type=
+hope 88 | chance 45 | possibility 19 | guarantee 12 | hoping 12 | promise 9 | dream 6 | guaranteed 6 | promised 5 | probability 5 | 
+
+state 600 cnt 217 type=
+sources 9 | toronto 7 | princeton 7 | problems 5 | arizona 5 | berkeley 5 | curious 3 | folks 3 | thanks 3 | psychology 3 | 
+
+state 1603 cnt 217 type=
+agree 33 | argument 19 | analysis 10 | observations 10 | survey 10 | disagree 8 | noticed 7 | expert 7 | investigation 6 | comment 6 | 
+
+state 1499 cnt 216 type=
+jpeg 76 | jpl 16 | lcs 12 | cryptography 12 | ncr 9 | crypto 6 | dc 6 | jpegview 4 | gsfc 4 | cryptanalysis 4 | 
+
+state 1019 cnt 215 type=
+encryption 58 | biased 10 | amiga 9 | spdcc 7 | urbana 6 | yeast 4 | gnu 4 | champaign 4 | apartheid 4 | hacker 4 | 
+
+state 1119 cnt 214 type=
+effect 67 | result 39 | results 32 | effective 30 | success 20 | benefit 16 | benefits 10 | 
+
+state 278 cnt 213 type=
+circuit 20 | prism 16 | lunar 14 | diamond 11 | motor 10 | rotation 10 | wheel 9 | loop 9 | arc 9 | cylinder 8 | 
+
+state 1608 cnt 213 type=
+radar 27 | satellite 18 | shuttle 18 | sail 12 | spacecraft 12 | ship 7 | antenna 6 | aerospace 6 | astronaut 5 | aircraft 5 | 
+
+state 748 cnt 212 type=
+hardware 62 | microsoft 40 | cpu 38 | printer 32 | processor 20 | printing 8 | cache 6 | timer 6 | 
+
+state 1228 cnt 212 type=
+appreciated 37 | statement 33 | define 10 | absolutely 9 | definition 9 | defined 8 | recommend 7 | acceptable 7 | specification 6 | specifications 5 | 
+
+state 375 cnt 210 type=
+scsi 76 | sc 12 | sco 11 | schism 8 | sk 5 | scud 4 | schismatic 3 | schmidling 3 | scorn 3 | skndiv 3 | 
+
+state 119 cnt 208 type=
+special 26 | reserve 13 | limited 12 | extra 10 | final 7 | equal 7 | constant 7 | average 6 | main 5 | direct 5 | 
+
+state 1694 cnt 208 type=
+helpful 14 | help 14 | offer 10 | buying 10 | export 10 | buy 9 | sales 9 | money 9 | expensive 5 | supply 5 | 
+
+state 1985 cnt 208 type=
+hour 16 | 00 8 | hours 7 | evening 7 | mars 7 | infinite 7 | ethernet 6 | afternoon 5 | planets 5 | mercury 5 | 
+
+state 1322 cnt 207 type=
+mode 59 | modem 40 | modems 15 | modes 8 | ref 7 | rev 6 | profess 5 | refresh 5 | prof 5 | revise 4 | 
+
+state 1340 cnt 206 type=
+night 34 | evil 26 | genesis 9 | gods 7 | angels 7 | fantasy 6 | revolution 6 | moses 6 | virgin 6 | angel 5 | 
+
+state 1564 cnt 206 type=
+based 67 | back 55 | night 27 | base 13 | center 12 | home 9 | down 9 | front 7 | left 7 | 
+
+state 674 cnt 204 type=
+ask 67 | asked 41 | asking 32 | explain 25 | explanation 19 | suggestion 13 | announcement 7 | 
+
+state 746 cnt 204 type=
+net 96 | netcom 51 | wire 22 | netters 12 | wiretap 10 | wiretaps 7 | netnews 6 | 
+
+state 1955 cnt 204 type=
+interest 50 | value 48 | important 31 | values 21 | importance 11 | significance 8 | interests 8 | role 7 | integrity 6 | activity 5 | 
+
+state 585 cnt 203 type=
+stop 79 | deleted 30 | stopped 19 | mistake 14 | trick 12 | quit 8 | stops 7 | replacement 6 | substitute 4 | reset 4 | 
+
+state 1399 cnt 203 type=
+fine 75 | save 46 | safe 29 | saved 22 | dangerous 21 | healthy 10 | 
+
+state 239 cnt 202 type=
+sex 46 | homosexuality 12 | aids 11 | hiv 9 | sexual 9 | alcohol 9 | nutrition 8 | diseases 8 | rape 6 | depression 6 | 
+
+state 1604 cnt 202 type=
+stephanopoulos 36 | sera 15 | survivors 8 | supporters 7 | drivers 6 | children 5 | animals 4 | tears 3 | jews 3 | beings 3 | 
+
+state 1863 cnt 202 type=
+faq 43 | waco 30 | fax 22 | uiuc 16 | jagr 6 | va 6 | wa 5 | wam 4 | wacko 4 | pa 4 | 
+
+state 93 cnt 201 type=
+religion 47 | muslims 35 | islam 31 | economy 12 | japan 12 | germany 9 | religions 8 | iran 8 | terrorism 7 | muslim 6 | 
+
+state 1683 cnt 201 type=
+break 40 | conflict 21 | broke 17 | breaking 7 | breaks 7 | disagree 7 | contradiction 6 | compromise 6 | leak 6 | failure 6 | 
+
+state 461 cnt 200 type=
+basic 46 | original 45 | final 34 | originally 16 | advanced 14 | modified 13 | ultimate 10 | basically 9 | complicated 8 | compressed 5 | 
+
+state 1420 cnt 200 type=
+software 116 | pixel 9 | intel 7 | algorithm 6 | downloaded 5 | data 5 | calculate 4 | algorithms 4 | atari 4 | predict 4 | 
+
+state 1705 cnt 200 type=
+box 62 | home 44 | closed 31 | shut 15 | apartment 13 | flat 11 | lock 5 | locked 4 | locks 4 | closing 4 | 
+
+state 960 cnt 199 type=
+manual 33 | automatic 24 | bmw 19 | honda 16 | ford 11 | manuals 9 | sony 9 | v8 8 | toyota 8 | v6 7 | 
+
+state 1689 cnt 199 type=
+amount 38 | thousands 36 | bunch 20 | hundreds 18 | rid 17 | mile 12 | plenty 10 | tens 7 | millions 7 | amounts 6 | 
+
+state 685 cnt 198 type=
+los 23 | fat 19 | hot 15 | bin 10 | binaries 9 | kinsey 8 | hat 7 | pit 7 | min 6 | panix 5 | 
+
+state 1467 cnt 198 type=
+anyone 61 | people 46 | everyone 28 | everybody 16 | anything 15 | person 13 | somebody 10 | anybody 9 | 
+
+state 501 cnt 197 type=
+m 55 | m. 36 | mass 32 | alt 24 | mfm 9 | mt 6 | kg 4 | br 3 | m400 2 | mjr 2 | 
+
+state 1796 cnt 196 type=
+tear 13 | pig 7 | buck 4 | leaf 3 | bottle 3 | fish 3 | vomit 3 | scoop 3 | screw 3 | goose 3 | 
+
+state 241 cnt 195 type=
+mb 49 | cwru 23 | nec 17 | ctrl 8 | nj 7 | cts 6 | ct 5 | mcconkie 5 | mccreary 4 | njd 3 | 
+
+state 964 cnt 194 type=
+sorry 29 | nothing 8 | nobody 6 | fool 6 | truths 6 | billion 5 | fools 5 | worthless 5 | stupid 4 | sins 4 | 
+
+state 1164 cnt 192 type=
+stay 40 | stand 38 | stuck 22 | stick 17 | stands 16 | strip 11 | stayed 11 | hut 7 | stood 7 | sticker 5 | 
+
+state 1289 cnt 190 type=
+majority 24 | liberal 14 | minority 12 | orthodox 11 | senior 9 | radical 8 | conservative 8 | minorities 7 | elected 5 | democratic 5 | 
+
+state 1365 cnt 190 type=
+fire 72 | penalty 23 | fired 19 | targets 11 | discharge 10 | penalties 9 | fires 8 | explosion 5 | firing 5 | charges 5 | 
+
+state 1458 cnt 190 type=
+happened 42 | occur 13 | occurs 12 | leland 9 | continue 6 | nazis 4 | experiences 4 | pitches 4 | counts 3 | occurred 3 | 
+
+state 1883 cnt 189 type=
+complete 48 | completely 47 | entire 34 | entirely 24 | totally 23 | comprehensive 7 | altogether 6 | 
+
+state 1165 cnt 188 type=
+inc 28 | serdar 23 | phil 10 | phill 6 | incited 4 | gr 4 | incompetent 4 | col 3 | phils 3 | gretzky 3 | 
+
+state 1995 cnt 188 type=
+usa 40 | ii 28 | bbs 19 | iii 13 | 3d 11 | iv 10 | 3do 8 | iici 7 | iisi 5 | iivx 4 | 
+
+state 1025 cnt 187 type=
+cd 29 | dl 12 | dbernard 7 | ld 7 | dtr 5 | cdrom 5 | cdt 4 | pds 4 | cb 4 | cdac 4 | 
+
+state 1349 cnt 187 type=
+love 77 | sport 18 | fun 17 | enjoy 16 | fear 10 | hate 8 | danger 8 | loves 6 | desire 5 | hateful 4 | 
+
+state 1980 cnt 187 type=
+albert 8 | ali 5 | levi 3 | dana 3 | brits 2 | optimize 2 | luxuries 2 | sasanid 2 | clare 2 | laissez 2 | 
+
+state 1435 cnt 186 type=
+policy 38 | plan 33 | grant 17 | planned 17 | planning 15 | project 14 | procedure 12 | intend 9 | plans 8 | business 7 | 
+
+state 445 cnt 185 type=
+imagine 16 | suppose 11 | involve 5 | grateful 5 | folly 3 | amusing 3 | cornell 3 | overlooked 3 | cactus 3 | shaken 3 | 
+
+state 179 cnt 184 type=
+greater 22 | increase 22 | reduced 19 | reduce 17 | increased 13 | maximum 12 | increasing 12 | increases 10 | raise 9 | excessive 7 | 
+
+state 181 cnt 183 type=
+jesus 156 | tradition 17 | philosophy 10 | 
+
+state 1438 cnt 183 type=
+optilink 9 | carl 8 | craig 5 | digitized 5 | dick 4 | mackie 4 | grafsys 3 | motor 3 | rod 3 | beth 3 | 
+
+state 603 cnt 182 type=
+ought 8 | beings 7 | creature 6 | inhabitants 5 | phenomenon 4 | mankind 4 | behaviour 4 | europeans 3 | youths 3 | folk 3 | 
+
+state 1582 cnt 182 type=
+past 41 | former 22 | ex 13 | exe 12 | fellow 11 | extermination 11 | exterminated 6 | ext 4 | expiration 3 | expires 3 | 
+
+state 538 cnt 180 type=
+pain 35 | hurt 22 | vice 20 | suffering 16 | suffer 14 | suffered 10 | bone 6 | gore 4 | susan 3 | crying 3 | 
+
+state 1124 cnt 180 type=
+feel 97 | felt 25 | sense 19 | feeling 17 | impression 13 | feels 9 | 
+
+state 272 cnt 177 type=
+open 83 | heavy 23 | openwindows 18 | full 15 | extended 13 | empty 12 | opened 7 | clean 6 | 
+
+state 1153 cnt 177 type=
+mit 55 | contrib 16 | config 15 | mitre 9 | contingency 5 | cod 4 | configurable 4 | concise 3 | construed 3 | con 3 | 
+
+state 1412 cnt 176 type=
+aix 5 | janet 4 | stalin 4 | migraines 3 | rosen 3 | 1777 3 | schwartz 3 | fatima 3 | hannibal 3 | joan 3 | 
+
+state 1204 cnt 175 type=
+year 46 | colorado 31 | reality 7 | much 7 | experience 5 | anymore 4 | day 4 | already 3 | himself 3 | michigan 3 | 
+
+state 247 cnt 174 type=
+handle 30 | hold 29 | compression 11 | burst 7 | crack 6 | lift 6 | zip 6 | blast 5 | grip 4 | bursters 4 | 
+
+state 1494 cnt 174 type=
+stupid 24 | weird 12 | crazy 11 | insane 8 | bullshit 7 | ridiculous 7 | nasty 7 | shit 6 | nuts 6 | scary 6 | 
+
+state 1777 cnt 174 type=
+shot 41 | shots 27 | burns 20 | shooting 18 | burning 14 | burned 11 | shoot 11 | burn 9 | beating 5 | burnt 4 | 
+
+state 483 cnt 173 type=
+st 31 | std 7 | dir 7 | stratus 5 | fri 4 | fr 4 | sw 4 | squirted 3 | stauber 3 | stiehm 3 | 
+
+state 1750 cnt 173 type=
+exist 32 | exists 20 | reliable 18 | reasonable 16 | legitimate 16 | useful 16 | necessary 13 | satisfied 7 | compatible 6 | acceptable 5 | 
+
+state 1862 cnt 173 type=
+simms 20 | oz 14 | ins 12 | simm 11 | embargo 9 | simtel20 8 | promiscuous 4 | insured 4 | emm386 4 | emmet 4 | 
+
+state 1891 cnt 173 type=
+able 20 | requires 19 | enough 16 | require 13 | allows 12 | allow 12 | afford 8 | requirement 7 | necessity 6 | impossible 5 | 
+
+state 419 cnt 172 type=
+pick 21 | screwed 9 | picks 8 | picked 8 | zip 4 | tune 4 | picking 4 | knocked 4 | lock 4 | figuring 4 | 
+
+state 1020 cnt 170 type=
+number 42 | end 20 | section 16 | part 11 | hit 11 | ahead 5 | leave 5 | lock 4 | portion 4 | pick 4 | 
+
+state 1111 cnt 170 type=
+waste 27 | spent 26 | spend 20 | score 19 | scoring 16 | scored 11 | spending 10 | scores 7 | median 6 | income 6 | 
+
+state 1137 cnt 170 type=
+free 128 | freenet 42 | 
+
+state 1220 cnt 170 type=
+kaldis 12 | kadie 6 | ke4zv 5 | ka 5 | nist 5 | karner 4 | nih 4 | ni 3 | bos 3 | kermit 3 | 
+
+state 1510 cnt 170 type=
+clipper 72 | tim 28 | clip 6 | paw 5 | bart 4 | zip 4 | cop 3 | damico 3 | clipping 2 | chopde 2 | 
+
+state 435 cnt 168 type=
+test 56 | trial 22 | tests 17 | testing 15 | trials 11 | tested 10 | experiment 8 | experiments 8 | examination 7 | patent 6 | 
+
+state 1139 cnt 165 type=
+hp 45 | apr 16 | turbo 14 | beck 12 | saturn 8 | nov 4 | hplabs 4 | oct 3 | sept 3 | torque 3 | 
+
+state 261 cnt 164 type=
+wondering 32 | wonder 30 | surprise 18 | forgot 14 | worry 9 | confusing 8 | surprised 7 | confusion 7 | confused 6 | confuse 5 | 
+
+state 788 cnt 164 type=
+leaf 6 | fool 5 | floptical 5 | floppies 5 | cowards 5 | rust 5 | frost 4 | puck 4 | fruit 3 | ditch 3 | 
+
+state 1770 cnt 164 type=
+up 54 | according 24 | have 16 | right 12 | ability 9 | want 8 | them 3 | directly 3 | the 3 | often 3 | 
+
+state 1005 cnt 163 type=
+protect 26 | cheers 16 | walker 8 | neighbors 6 | driver 5 | starter 4 | preserve 3 | savior 3 | mason 3 | protected 3 | 
+
+state 1537 cnt 162 type=
+s. 9 | fun 8 | day 8 | mine 6 | thing 5 | bad 4 | 1 4 | space 3 | it 3 | house 3 | 
+
+state 3 cnt 160 type=
+military 39 | army 23 | corp 19 | gang 19 | militia 17 | navy 13 | company 9 | corporation 9 | police 3 | corps 3 | 
+
+state 1830 cnt 160 type=
+y 16 | ya 14 | jehovah 13 | y. 8 | ye 7 | yassin 7 | yalanci 5 | wod 5 | yogurt 3 | yr 3 | 
+
+state 331 cnt 159 type=
+ground 14 | tree 9 | stone 8 | wood 6 | yard 4 | tower 4 | bush 4 | green 4 | bird 4 | treewater 4 | 
+
+state 437 cnt 158 type=
+plus 49 | add 46 | added 38 | adding 18 | adds 7 | 
+
+state 768 cnt 158 type=
+pc 93 | cc 21 | rational 12 | pcx 5 | pcb 5 | ccwf 3 | pci 3 | pc1o 2 | rationally 2 | pcp 2 | 
+
+state 923 cnt 158 type=
+sleep 16 | night 15 | walk 12 | walked 12 | morning 11 | laugh 10 | walking 8 | hair 7 | bed 7 | wake 6 | 
+
+state 1566 cnt 158 type=
+vitamin 17 | guess 10 | nmsu 7 | dietz 6 | diet 5 | neat 3 | migraine 3 | clue 3 | towfiq 3 | pm 2 | 
+
+state 664 cnt 157 type=
+decided 43 | determine 30 | decide 30 | decision 16 | decisions 15 | determined 13 | deciding 5 | settle 5 | 
+
+state 318 cnt 154 type=
+command 34 | commands 11 | objective 9 | abuse 8 | trigger 7 | assert 5 | commandments 5 | brute 4 | authority 4 | instinctive 3 | 
+
+state 1238 cnt 154 type=
+solution 35 | respond 32 | responses 23 | response 19 | solutions 17 | implementation 10 | responded 8 | alternatives 5 | react 5 | 
+
+state 474 cnt 153 type=
+tar 30 | gas 28 | au 12 | tin 5 | louray 5 | das 5 | tartar 4 | der 4 | tartars 4 | ice 4 | 
+
+state 1959 cnt 153 type=
+met 20 | meet 20 | meeting 16 | visit 14 | conference 11 | fund 9 | consult 5 | visiting 5 | consulting 4 | arrested 4 | 
+
+state 733 cnt 152 type=
+existence 50 | lives 34 | lived 21 | persons 11 | teachings 11 | alive 9 | beliefs 6 | minds 5 | humanity 5 | 
+
+state 290 cnt 151 type=
+player 51 | fan 50 | fans 17 | bet 13 | fanaticism 7 | fanatics 6 | fanatic 4 | passenger 3 | 
+
+state 498 cnt 149 type=
+ms 73 | msg 34 | msstate 14 | msdos 9 | msfc 4 | mss 3 | msunde01 2 | msu 2 | 1111 2 | b11 2 | 
+
+state 1703 cnt 149 type=
+normal 39 | typical 30 | usual 23 | average 13 | normally 11 | ideal 10 | ideally 7 | traditional 7 | typically 5 | conventional 4 | 
+
+state 1183 cnt 148 type=
+bear 17 | dog 16 | dogma 10 | animal 9 | iron 8 | laser 8 | beast 7 | magic 7 | ranch 5 | laserwriter 4 | 
+
+state 839 cnt 147 type=
+water 46 | oil 35 | sandvik 8 | pool 7 | dry 6 | rain 5 | spray 4 | sandiego 3 | wetteland 3 | beer 3 | 
+
+state 1141 cnt 147 type=
+su 9 | subscribe 8 | sub 6 | subaru 4 | intergraph 4 | sutter 3 | subdirectories 3 | unequivocally 3 | suprised 3 | substantiate 3 | 
+
+state 1551 cnt 147 type=
+dod 28 | objective 14 | dc 11 | ucsc 10 | intel 8 | ucsd 8 | uchicago 7 | tel 7 | uc 6 | ucc 5 | 
+
+state 1439 cnt 145 type=
+remember 72 | memory 61 | safety 12 | 
+
+state 101 cnt 144 type=
+44 6 | 37 6 | 40 5 | 117 4 | 34 4 | 46 4 | 43 4 | 125 4 | 45 3 | 42 3 | 
+
+state 217 cnt 144 type=
+optilink 17 | render 6 | prefered 5 | distinguish 4 | forbidding 4 | reflect 4 | exhaust 4 | kurt 3 | discus 3 | tract 3 | 
+
+state 1738 cnt 144 type=
+bios 26 | sys 24 | symptom 6 | syquest 4 | cy 3 | bio 3 | sysadmin 3 | cyanide 3 | astro 3 | biopsy 3 | 
+
+state 1599 cnt 143 type=
+network 23 | society 12 | event 9 | association 8 | forum 7 | club 6 | union 6 | market 5 | stadium 5 | senate 5 | 
+
+state 590 cnt 142 type=
+rsa 19 | ksand 8 | ssto 7 | ss 5 | sspx 5 | nsmca 5 | rs 5 | mkentry 5 | ssc 4 | ssave 4 | 
+
+state 1572 cnt 142 type=
+morality 11 | meaningless 8 | stupid 8 | silly 8 | selfish 8 | politics 8 | worthless 4 | guts 4 | useless 3 | dismiss 3 | 
+
+state 125 cnt 141 type=
+dos 100 | blues 11 | sas 6 | romans 5 | raster 4 | dos6 3 | nosc 2 | dosage 2 | nosubdomain 2 | nos 2 | 
+
+state 167 cnt 140 type=
+o 48 | o. 22 | oops 8 | odometer 5 | ocd 4 | o'reilly 4 | oort 3 | o'clock 3 | oclock 2 | od 2 | 
+
+state 1560 cnt 140 type=
+simply 94 | merely 23 | purely 8 | strictly 8 | mere 7 | 
+
+state 1625 cnt 138 type=
+application 51 | applications 45 | apply 32 | applies 10 | 
+
+state 807 cnt 135 type=
+dan 21 | ny 16 | nyx 13 | ron 12 | gilmour 10 | nyr 4 | nysernet 4 | gil 4 | nystatin 4 | gilham 4 | 
+
+state 926 cnt 135 type=
+tek 12 | temp 10 | teflon 7 | feustel 6 | tektronix 5 | lefebvre 5 | lemieux 5 | neurologic 4 | teh 3 | le 3 | 
+
+state 1693 cnt 135 type=
+dee 10 | monash 9 | beyer 7 | uiuc 3 | uio 3 | wailing 3 | phigs 3 | ileaf 3 | uit 2 | keirnan 2 | 
+
+state 1503 cnt 134 type=
+` 59 | [ 37 | { 23 | } 15 | 
+
+state 1192 cnt 133 type=
+pro 38 | la 20 | progman 5 | larc 4 | prod 3 | provable 3 | pros 3 | prolog 3 | lat 3 | latonia 2 | 
+
+state 1389 cnt 132 type=
+pretty 101 | hear 19 | heard 12 | 
+
+state 1492 cnt 132 type=
+designed 33 | style 28 | model 27 | models 26 | generation 10 | design 8 | 
+
+state 1736 cnt 132 type=
+pitching 10 | leafs 10 | hitter 7 | penguins 6 | tampa 6 | canucks 5 | bronx 4 | pitches 4 | brendan 3 | penguin 3 | 
+
+state 1116 cnt 131 type=
+copyright 5 | interpret 5 | duplicate 4 | ciphers 4 | cipher 3 | massacres 2 | trademarks 2 | trademark 2 | prejudice 2 | reset 2 | 
+
+state 1690 cnt 131 type=
+mine 43 | stores 14 | shop 12 | storage 11 | store 11 | shaft 9 | factory 8 | stored 7 | plant 5 | ours 5 | 
+
+state 773 cnt 130 type=
+ac 48 | isa 20 | acs 11 | acm 8 | ai 7 | acip 4 | iq 3 | acpub 2 | isolar 2 | aisun3 2 | 
+
+state 875 cnt 129 type=
+thus 58 | therefore 36 | overall 21 | hence 14 | 
+
+state 891 cnt 129 type=
+straight 27 | ran 21 | fly 12 | heads 9 | boring 9 | useless 8 | flow 8 | flew 5 | flies 4 | suck 4 | 
+
+state 1943 cnt 129 type=
+bell 17 | star 16 | sternlight 12 | rocket 10 | comet 10 | flag 9 | stars 8 | hero 6 | bellows 4 | jet 3 | 
+
+state 14 cnt 126 type=
+vs. 30 | vs 23 | gt 8 | sync 7 | gtoal 6 | ttl 4 | tt 4 | gpf 3 | tty 3 | gtd597a 3 | 
+
+state 718 cnt 124 type=
+det 12 | digex 10 | agnostic 8 | potvin 6 | pot 5 | agdam 5 | detriot 4 | est 4 | intimidate 4 | mist 3 | 
+
+state 878 cnt 124 type=
+proposed 24 | popular 13 | candidate 10 | approved 8 | announced 8 | established 7 | ordered 6 | favored 5 | accepted 4 | predicted 4 | 
+
+state 1076 cnt 122 type=
+tcp 11 | tc 8 | mcs 8 | mc 7 | bc 7 | bcci 4 | tcd 3 | mc68882rc25 3 | mcrcim 3 | bclarke 3 | 
+
+state 874 cnt 121 type=
+drugs 36 | sick 17 | medicine 9 | illness 7 | foods 7 | brains 7 | wounded 6 | symptoms 5 | dna 5 | biological 3 | 
+
+state 1742 cnt 120 type=
+nuclear 21 | fuel 21 | electrical 14 | electric 8 | energy 6 | magnetic 5 | diesel 4 | electricity 3 | aluminum 3 | volcanic 2 | 
+
+state 755 cnt 119 type=
+disclaimer 25 | informatik 11 | disclaimers 5 | discredit 5 | inform 5 | discriminate 4 | opt 4 | disc 2 | discard 2 | intermittant 2 | 
+
+state 1174 cnt 119 type=
+cmu 21 | xlib 12 | sgi 10 | sfu 6 | sf 4 | xli 4 | cms 3 | sg 3 | cabling 3 | cmos 3 | 
+
+state 325 cnt 118 type=
+happy 41 | luck 32 | lucky 22 | chances 11 | blessed 7 | odds 5 | 
+
+state 344 cnt 118 type=
+hell 61 | crap 17 | satan 12 | shit 12 | devil 10 | heck 6 | 
+
+state 533 cnt 118 type=
+is 14 | willing 12 | , 12 | and 10 | do 9 | are 8 | want 5 | as 5 | me 4 | possible 3 | 
+
+state 799 cnt 118 type=
+root 17 | pop 15 | origin 11 | log 11 | login 10 | butt 6 | peak 6 | pak 4 | originator 3 | trunk 3 | 
+
+state 1617 cnt 117 type=
+scale 16 | tube 15 | sea 14 | cycle 8 | atmospheric 7 | wave 6 | tea 4 | mariner 4 | seas 3 | stream 3 | 
+
+state 13 cnt 116 type=
+mil 13 | tel 7 | telnet 5 | televison 4 | gel 3 | galvint 2 | galvin 2 | ul 2 | merlyn 2 | ulowell 2 | 
+
+state 1421 cnt 116 type=
+dictionary 15 | paragraph 13 | binary 10 | catalog 7 | ioccc 6 | quotations 5 | billion 5 | bureau 4 | galaxy 4 | bulletin 4 | 
+
+state 75 cnt 115 type=
+critical 13 | chronic 10 | essential 10 | fundamental 9 | defensive 8 | fundamentalist 7 | intensive 6 | frequent 6 | apparent 5 | active 4 | 
+
+state 1004 cnt 115 type=
+santa 7 | rosa 6 | baerga 6 | ariane 4 | fluke 3 | iastate 3 | anania 3 | nicoll 3 | fluctuate 2 | abate 2 | 
+
+state 1786 cnt 114 type=
+door 35 | gatech 25 | gateway 17 | doors 11 | exit 8 | outlet 7 | outlets 5 | gates 4 | entrance 2 | 
+
+state 1662 cnt 112 type=
+green 27 | white 17 | great 9 | human 3 | gay 3 | fat 3 | strong 3 | high 3 | old 3 | pure 2 | 
+
+state 406 cnt 111 type=
+goal 33 | budget 18 | fee 11 | goalie 9 | fees 6 | rent 5 | lend 4 | goaltending 3 | goals 3 | cents 3 | 
+
+state 1476 cnt 111 type=
+graphics 68 | physics 17 | electronic 13 | graphic 4 | interactive 3 | graphical 3 | 3d 3 | 
+
+state 1706 cnt 110 type=
+ball 32 | balls 15 | finish 14 | finished 12 | bag 9 | ballentine 3 | taglines 3 | tag 3 | paste 3 | ballgames 3 | 
+
+state 42 cnt 109 type=
+themselves 53 | yourself 51 | globe 5 | 
+
+state 555 cnt 109 type=
+whatever 43 | manner 20 | nations 19 | whenever 11 | whoever 10 | whichever 6 | 
+
+state 1799 cnt 109 type=
+gov 50 | hmm 12 | highway 12 | hmmm 9 | gov't 5 | dare 4 | riddance 4 | billion 3 | goverment 3 | dollars 2 | 
+
+state 1893 cnt 109 type=
+do 35 | n't 32 | mike 25 | manager 7 | editor 4 | dad 3 | nt 3 | 
+
+state 490 cnt 108 type=
+pull 27 | drop 14 | lay 13 | pulling 10 | turned 7 | spin 7 | pulled 5 | cast 5 | struck 5 | swing 4 | 
+
+state 60 cnt 107 type=
+zuma 16 | karabakh 16 | karabag 7 | karabagh 6 | sho 6 | bontchev 5 | za 5 | shostack 3 | shos 2 | karabakhi 2 | 
+
+state 1747 cnt 107 type=
+deal 71 | dealing 12 | agreement 12 | deals 8 | dealt 4 | 
+
+state 618 cnt 106 type=
+na 10 | ra 9 | da 8 | rabin 6 | nagorno 6 | rahul 5 | naren 2 | babb 2 | ba 2 | radiator 2 | 
+
+state 1123 cnt 105 type=
+san 33 | delete 8 | deletion 6 | del 5 | elroy 4 | elohim 4 | elan 4 | deleting 2 | delman 2 | sanctification 2 | 
+
+state 1483 cnt 105 type=
+ar 17 | arromdee 13 | argic 13 | au 11 | argic'we 9 | arf 4 | mar 4 | marlboro 3 | arpa 3 | arn't 2 | 
+
+state 1901 cnt 102 type=
+self 70 | semi 19 | clinical 13 | 
+
+state 263 cnt 101 type=
+output 39 | transmitted 8 | generator 8 | generate 8 | generated 6 | transmit 6 | yield 4 | inputs 4 | vector 3 | generating 3 | 
+

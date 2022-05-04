@@ -1,5 +1,6 @@
 """Recovering latent network structure from contextualized embeddings
-Auto-regressive decoder
+
+Non-autoregressive decoder
 """
 
 
@@ -17,13 +18,11 @@ from torch.distributions import Uniform
 
 from nltk.corpus import stopwords
 from collections import Counter
-from transformers import BertModel, AdamW, get_constant_schedule_with_warmup, BertConfig
+from transformers import BertModel, AdamW, get_constant_schedule_with_warmup
 
 # from adabelief_pytorch import AdaBelief
 from frtorch import FRModel, LinearChainCRF, LSTMDecoder
 from frtorch import torch_model_utils as tmu
-
-from eval_utils import LatentStateEval, compute_w_ent, compute_ent_stopword, compute_ent_subword
 
 
 class BertNetModel(nn.Module):
@@ -55,7 +54,7 @@ class BertNetModel(nn.Module):
                potential_normalization=False,
                potential_scale=1.0,
                topk_sum=False,
-               emb_type='contextualized',
+               pad_id=0
                ):
     """
     Args:
@@ -63,7 +62,6 @@ class BertNetModel(nn.Module):
     super(BertNetModel, self).__init__()
 
     self.encoder_type = encoder_type
-    self.emb_type = emb_type
     self.loss_type = loss_type
     self.exact_rsample = exact_rsample
     self.latent_scale = latent_scale
@@ -78,7 +76,8 @@ class BertNetModel(nn.Module):
     self.ent_approx = ent_approx
     self.use_bow_loss = use_bow_loss
     self.word_dropout_decay = word_dropout_decay
-    self.topk_sum=topk_sum
+    self.topk_sum = topk_sum
+    self.state_size = state_size
     if(topk_sum == True): print('Using topk sum!')
     # self.potential_normalization = potential_normalization
     # self.potential_scale = potential_scale
@@ -113,10 +112,11 @@ class BertNetModel(nn.Module):
                                embedding_size=state_size,
                                dropout=dropout,
                                use_attn=False,
-                               use_hetero_attn=False
+                               use_hetero_attn=False,
+                               pad_id=pad_id
                                )
-    self.p_z_proj = nn.Linear(state_size, num_state)
-    self.p_z_intermediate = nn.Linear(2 * state_size, state_size)
+    # self.p_z_proj = nn.Linear(state_size, num_state)
+    # self.p_z_intermediate = nn.Linear(2 * state_size, state_size)
     return 
 
   def get_transition(self):
@@ -191,63 +191,63 @@ class BertNetModel(nn.Module):
     dec_targets_z = z_sample_ids[:, 1:]
     return dec_inputs, dec_targets_x, dec_targets_z
 
-  def decode_train(self, 
-    dec_inputs, z_sample_emb, dec_targets_x, dec_targets_z, x_lens):
-    """
+  # def decode_train(self, 
+  #   dec_inputs, z_sample_emb, dec_targets_x, dec_targets_z, x_lens):
+  #   """
 
-    Args:
-      dec_inputs: size=[batch, max_len, dim]
-      z_sample_emb: size=[batch, max_len, dim]
-      dec_target_x: size=[batch, max_len]
-      dec_target_z: size=[batch, max_len]
-      x_lens: size=[batch]
+  #   Args:
+  #     dec_inputs: size=[batch, max_len, dim]
+  #     z_sample_emb: size=[batch, max_len, dim]
+  #     dec_target_x: size=[batch, max_len]
+  #     dec_target_z: size=[batch, max_len]
+  #     x_lens: size=[batch]
 
-    Returns:
-      log_prob: size=[batch, max_len]
-      log_prob_x: size=[batch, max_len]
-      log_prob_z: size=[batch, max_len]
-    """
-    max_len = dec_inputs.size(1)
-    batch_size = dec_inputs.size(0)
-    device = dec_inputs.device
-    state_dim = dec_inputs.size(-1)
+  #   Returns:
+  #     log_prob: size=[batch, max_len]
+  #     log_prob_x: size=[batch, max_len]
+  #     log_prob_z: size=[batch, max_len]
+  #   """
+  #   max_len = dec_inputs.size(1)
+  #   batch_size = dec_inputs.size(0)
+  #   device = dec_inputs.device
+  #   state_dim = dec_inputs.size(-1)
 
-    dec_cell = self.decoder
+  #   dec_cell = self.decoder
 
-    dec_inputs = dec_inputs.transpose(1, 0)
-    dec_targets_x = dec_targets_x.transpose(1, 0)
-    dec_targets_z = dec_targets_z.transpose(1, 0)
-    z_sample_emb = z_sample_emb[:, 1:].transpose(1, 0) # start from z[1]
+  #   dec_inputs = dec_inputs.transpose(1, 0)
+  #   dec_targets_x = dec_targets_x.transpose(1, 0)
+  #   dec_targets_z = dec_targets_z.transpose(1, 0)
+  #   z_sample_emb = z_sample_emb[:, 1:].transpose(1, 0) # start from z[1]
 
-    state = (torch.zeros(dec_cell.lstm_layers, batch_size, state_dim).to(device), 
-             torch.zeros(dec_cell.lstm_layers, batch_size, state_dim).to(device))
-    log_prob_x, log_prob_z = [], []
+  #   state = (torch.zeros(dec_cell.lstm_layers, batch_size, state_dim).to(device), 
+  #            torch.zeros(dec_cell.lstm_layers, batch_size, state_dim).to(device))
+  #   log_prob_x, log_prob_z = [], []
     
-    for i in range(max_len):
-      dec_out, state = dec_cell(dec_inputs[i], state)
-      dec_out = dec_out[0]
-      z_logits = self.p_z_proj(dec_out)
-      log_prob_z_i = -F.cross_entropy(
-        z_logits, dec_targets_z[i], reduction='none')
-      log_prob_z.append(log_prob_z_i)
+  #   for i in range(max_len):
+  #     dec_out, state = dec_cell(dec_inputs[i], state)
+  #     dec_out = dec_out[0]
+  #     z_logits = self.p_z_proj(dec_out)
+  #     log_prob_z_i = -F.cross_entropy(
+  #       z_logits, dec_targets_z[i], reduction='none')
+  #     log_prob_z.append(log_prob_z_i)
 
-      dec_intermediate = self.p_z_intermediate(
-        torch.cat([dec_out, z_sample_emb[i]], dim=1))
-      x_logits = dec_cell.output_proj(dec_intermediate)
-      log_prob_x_i = -F.cross_entropy(
-        x_logits, dec_targets_x[i], reduction='none')
-      log_prob_x.append(log_prob_x_i)
+  #     dec_intermediate = self.p_z_intermediate(
+  #       torch.cat([dec_out, z_sample_emb[i]], dim=1))
+  #     x_logits = dec_cell.output_proj(dec_intermediate)
+  #     log_prob_x_i = -F.cross_entropy(
+  #       x_logits, dec_targets_x[i], reduction='none')
+  #     log_prob_x.append(log_prob_x_i)
 
-    log_prob_x = torch.stack(log_prob_x).transpose(1, 0) # [B, T]
-    log_prob_x = tmu.mask_by_length(log_prob_x, x_lens)
-    log_prob_x = (log_prob_x.sum(-1) / x_lens).mean()
+  #   log_prob_x = torch.stack(log_prob_x).transpose(1, 0) # [B, T]
+  #   log_prob_x = tmu.mask_by_length(log_prob_x, x_lens)
+  #   log_prob_x = (log_prob_x.sum(-1) / x_lens).mean()
 
-    log_prob_z = torch.stack(log_prob_z).transpose(1, 0)
-    log_prob_z = tmu.mask_by_length(log_prob_z, x_lens)
-    log_prob_z = (log_prob_z.sum(-1) / x_lens).mean()
+  #   log_prob_z = torch.stack(log_prob_z).transpose(1, 0)
+  #   log_prob_z = tmu.mask_by_length(log_prob_z, x_lens)
+  #   log_prob_z = (log_prob_z.sum(-1) / x_lens).mean()
 
-    log_prob = log_prob_x + log_prob_z
-    return log_prob, log_prob_x, log_prob_z
+  #   log_prob = log_prob_x + log_prob_z
+  #   return log_prob, log_prob_x, log_prob_z
 
   def forward(self, x, attention_mask, 
     tau=1.0, x_lambd=0.0, z_lambd=0.0, z_beta=1.0):
@@ -263,26 +263,14 @@ class BertNetModel(nn.Module):
     """
     batch_size = x.size(0)
     x_lens = attention_mask.sum(-1)
+    device = x.device
 
     # encoding
-    if(self.emb_type == 'static'):
-      x_emb = self.encoder.embeddings.word_embeddings(x)
-    elif(self.emb_type == 'static_pos'):
-      x_emb = self.encoder.embeddings(x)
-    elif(self.emb_type == 'positional'):
-      seq_length = x.size(1)
-      position_ids = self.encoder.embeddings.position_ids[:, :seq_length]
-      x_emb = self.encoder.embeddings.position_embeddings(position_ids).repeat(batch_size, 1, 1)
-    elif(self.emb_type == 'contextualized'):
-      x_emb = self.encoder(x, attention_mask=attention_mask)[0]
-    else:
-      raise ValueError('Invalid emb type %s' % self.emb_type)
-
+    x_emb = self.encoder(x, attention_mask=attention_mask)[0]
     if(self.use_latent_proj):
       x_emb = self.latent_proj(x_emb)
 
     # latent 
-    # import pdb; pdb.set_trace()
     if(self.latent_type == 'softmax'):
       z_logits = torch.einsum('bij,kj->bik', x_emb, self.state_matrix)
       z_sample_relaxed = tmu.reparameterize_gumbel(z_logits, tau)
@@ -330,15 +318,6 @@ class BertNetModel(nn.Module):
           ent_sofmax = tmu.entropy(F.softmax(emission, -1), keepdim=True)
           ent_sofmax = (ent_sofmax * attention_mask).sum()
           ent = ent_sofmax / attention_mask.sum()
-        elif(self.ent_approx == 'rdp'):
-          _, _, _, z_sample, z_sample_emb, z_sample_log_prob, inspect =\
-            self.crf.rsample_approx(state_matrix, emission, x_lens, 
-              self.sum_size, self.proposal, sample_size=self.sample_size,
-              tau=tau, return_ent=False, 
-              topk_sum=self.topk_sum) 
-          ent = self.crf.entropy_approx(state_matrix, emission, x_lens, 
-                  self.sum_size, self.proposal, sample_size=self.sample_size)
-          ent = ent.mean()
         else: 
           raise ValueError('Invalid value ent_approx: %s' % self.ent_approx)
     else: 
@@ -346,30 +325,26 @@ class BertNetModel(nn.Module):
         'Latent type %s not implemented!' % self.latent_type)
     
     # decoding 
-    dec_inputs, dec_targets_x, dec_targets_z = self.prepare_dec_io(
-      z_sample, z_sample_emb, x, x_lambd)
+    # dec_inputs, dec_targets_x, dec_targets_z = self.prepare_dec_io(
+    #   z_sample, z_sample_emb, x, x_lambd)
 
-    p_log_prob, p_log_prob_x, p_log_prob_z = self.decode_train(
-      dec_inputs, z_sample_emb, dec_targets_x, dec_targets_z, x_lens)
+    # p_log_prob, p_log_prob_x, p_log_prob_z = self.decode_train(
+    #   dec_inputs, z_sample_emb, dec_targets_x, dec_targets_z, x_lens)
+
+    state = (torch.zeros(self.decoder.lstm_layers, batch_size, self.state_size).to(device), 
+             torch.zeros(self.decoder.lstm_layers, batch_size, self.state_size).to(device))
+    p_log_prob, _ = self.decoder.decode_train(state, z_sample_emb, x)
 
     # by default we do maximization
-    loss = p_log_prob_x + z_lambd * p_log_prob_z + z_beta * ent
-    obj = p_log_prob_x + p_log_prob_z + ent
-
-    # TODO: add bag of words loss
-    if(self.use_bow_loss):
-      pass
+    loss = p_log_prob + z_beta * ent
 
     # turn maximization to minimization
     loss = -loss
     
     out_dict = {}
     out_dict['loss'] = loss.item()
-    out_dict['obj'] = obj.item()
     out_dict['ent'] = ent.item()
-    out_dict['p_log_prob_x'] = p_log_prob_x.item()
-    out_dict['p_log_prob_z'] = p_log_prob_z.item()
-    out_dict['p_log_x_z'] = p_log_prob_x.item() + p_log_prob_z.item()
+    out_dict['p_log_prob'] = p_log_prob.item()
     out_dict['z_sample'] = tmu.to_np(z_sample)
     out_dict['input_ids'] = tmu.to_np(x)
     out_dict['p_t_min'] = inspect['p_t_min'].item()
@@ -379,33 +354,6 @@ class BertNetModel(nn.Module):
     out_dict['p_e_max'] = inspect['p_e_max'].item()
     out_dict['p_e_mean'] = inspect['p_e_mean'].item()
     return loss, out_dict
-
-  def decode_state(self, x, attention_mask):
-    """Decode latent state"""
-    out_dict = {}
-
-    batch_size = x.size(0)
-    if(self.emb_type == 'static'):
-      x_emb = self.encoder.embeddings.word_embeddings(x)
-    elif(self.emb_type == 'static_pos'):
-      x_emb = self.encoder.embeddings(x)
-    elif(self.emb_type == 'positional'):
-      seq_length = x.size(1)
-      position_ids = self.encoder.embeddings.position_ids[:, :seq_length]
-      x_emb = self.encoder.embeddings.position_embeddings(position_ids).repeat(batch_size, 1, 1)
-    elif(self.emb_type == 'contextualized'):
-      x_emb = self.encoder(x, attention_mask=attention_mask)[0]
-    else:
-      raise ValueError('Invalid emb type %s' % self.emb_type)
-
-    state_matrix = self.state_matrix 
-    emission = torch.matmul(x_emb, state_matrix.transpose(1, 0))
-    lens = attention_mask.sum(-1)
-    z = self.crf.proposal_argmax(state_matrix, emission, lens, sum_size=self.sum_size)
-
-    out_dict['z'] = z = tmu.to_np(z)
-    out_dict['lens'] = tmu.to_np(lens)
-    return out_dict
 
   # def sampled_forward_est(self, x, attention_mask):
   #   """Sampled forward"""
@@ -459,8 +407,7 @@ class BertNet(FRModel):
                z_beta_final=0.01,
                anneal_beta_with_lambd=False,
                anneal_z_prob=False,
-               save_mode='full',
-               data_path='',
+               save_mode='full'
                ):
     """"""
     super(BertNet, self).__init__()
@@ -484,18 +431,16 @@ class BertNet(FRModel):
     self.stopwords.extend(['"', "'", '.', ',', '?', '!', '-', '[CLS]', '[SEP]', 
       ':', '@', '/', '[', ']', '(', ')', 'would', 'like'])
     self.stopwords = set(self.stopwords)
-
-    self.eval_suite = LatentStateEval(file_path=data_path, stopwords=self.stopwords)
     
     # TODO: test AdaBelief optimizer
     self.optimizer = AdamW(self.model.parameters(), lr=learning_rate)
     self.scheduler = get_constant_schedule_with_warmup(
       self.optimizer, num_warmup_steps=50)
 
-    self.log_info = ['loss', 'obj', 'ent', 'p_log_prob_x', 'p_log_prob_z', 'p_log_x_z', 
-      'x_lambd', 'tau', 'z_lambd', 'z_beta']
-    self.validation_scores = ['loss', 'obj', 'ent', 'p_log_prob_x', 'p_log_prob_z', 
-      'p_log_x_z', 'x_lambd', 'tau', 'z_lambd', 'z_beta']
+    # self.log_info = ['loss', 'obj', 'ent', 'p_log_prob_x', 'p_log_prob_z', 'p_log_x_z', 
+    #   'x_lambd', 'tau', 'z_lambd', 'z_beta']
+    # self.validation_scores = ['loss', 'obj', 'ent', 'p_log_prob_x', 'p_log_prob_z', 
+    #   'p_log_x_z', 'x_lambd', 'tau', 'z_lambd', 'z_beta']
     self.validation_criteria = validation_criteria
     self.num_batch_per_epoch = num_batch_per_epoch
     return 
@@ -576,8 +521,8 @@ class BertNet(FRModel):
 
     self.update_aggregated_posterior(ei, bi, out_dict)
     out_dict['tau'] = tau
-    out_dict['x_lambd'] = x_lambd
-    out_dict['z_lambd'] = z_lambd
+    # out_dict['x_lambd'] = x_lambd
+    # out_dict['z_lambd'] = z_lambd
     out_dict['z_beta'] = z_beta
     return out_dict
 
@@ -599,14 +544,6 @@ class BertNet(FRModel):
       out_dict['x_lambd'] = x_lambd
       out_dict['z_lambd'] = z_lambd
       out_dict['z_beta'] = z_beta
-
-      if(ei < 0): # validation after training, (not during training)
-        self.update_aggregated_posterior(ei, bi, out_dict)
-
-      out_dict_ = self.model.decode_state(x=batch['input_ids'].to(self.device),
-                          attention_mask=batch['attention_mask'].to(self.device)
-                          )
-      out_dict.update(out_dict_)
     return out_dict
 
   def state_ngram_stats(self, outputs, dataset, ei, n, output_path_base):
@@ -615,7 +552,7 @@ class BertNet(FRModel):
     z_ngram_stop = dict()
     z_ngram_cnt_nostop = []
     z_ngram_cnt_stop = []
-    for out_dict in outputs:
+    for out_dict in tqdm(outputs):
       for z, x in zip(out_dict['z_sample'], out_dict['input_ids']):
         len_z = len(z)
         if(len_z < n): continue 
@@ -687,59 +624,32 @@ class BertNet(FRModel):
     # TODO: write sentence-state pairs 
     scores = dict()
 
-    # if(ei >= 0): # if ei = -1 then load pretrained model. In this case there is no aggregated posterior
     filename = output_path_base + '_epoch_%d_s2w.txt' % ei
-    if(mode == 'dev'):
-      print('Writing state-word aggregated posterior to %s' % filename)
-      fd = open(filename, 'w')
+    print('Writing state-word aggregated posterior to %s' % filename)
+    with open(filename, 'w') as fd:
       fd_sw = open(output_path_base + '_epoch_%d_s2w_sw.txt' % ei, 'w')
-    z_freq_stats = self.aggregated_posterior.sum(-1)
-
-    z_ppl = z_freq_stats / z_freq_stats.sum()
-    z_ppl = np.exp((-z_ppl * np.log(z_ppl + 1e-8)).sum())
-    scores['z_ppl'] = z_ppl
-
-    z_freq_stats_no_sw = np.array(self.aggregated_posterior)
-    for w in self.stopwords:
-      wid = self.tokenizer.vocab[w]
-      z_freq_stats_no_sw[:, wid] = 0
-    z_freq_stats_no_sw = z_freq_stats_no_sw.sum(-1)
-    num_active_states = (z_freq_stats != 0).sum()
-    scores['num_active_states'] = num_active_states
-
-    if(mode == 'dev'):
+      z_freq_stats = self.aggregated_posterior.sum(-1)
+      z_ppl = z_freq_stats / z_freq_stats.sum()
+      z_ppl = np.exp((-z_ppl * np.log(z_ppl + 1e-8)).sum())
+      scores['z_ppl'] = z_ppl
+      z_freq_stats_no_sw = np.array(self.aggregated_posterior)
+      for w in self.stopwords:
+        wid = self.tokenizer.vocab[w]
+        z_freq_stats_no_sw[:, wid] = 0
+      z_freq_stats_no_sw = z_freq_stats_no_sw.sum(-1)
+      num_active_states = (z_freq_stats != 0).sum()
+      scores['num_active_states'] = num_active_states
       ind = np.argsort(z_freq_stats)[::-1]
       # TODO: draw state frequency figure with static / dynamic portion
-      w_ent_mean = []
-      w_ent_zero = 0
-      ent_stopword_mean = [] # if stopwords and content words are mixed or seperated
-      ent_stopword_zero = 0
-      ent_subword_mean = []  # if subword and word stems are mixed or seperated
-      ent_subword_zero = 0
-      total_zero = 0
-      for i in range(self.model.num_state):
+      for i in tqdm(range(self.model.num_state)):
         z_i = ind[i]
-        if(self.aggregated_posterior[z_i].sum() == 0): total_zero += 1
-
         # write state
-        w_ent = compute_w_ent(self.aggregated_posterior[z_i])
-        if(w_ent >= 0): w_ent_mean.append(w_ent)
-        else: w_ent_zero += 1
-        
-        ent_stopword = compute_ent_stopword(self.aggregated_posterior[z_i], self.stopwords, self.tokenizer)
-        if(ent_stopword != -1): ent_stopword_mean.append(ent_stopword)
-        else: ent_stopword_zero += 1
-
-        ent_subword = compute_ent_subword(self.aggregated_posterior[z_i], self.tokenizer)
-        if(ent_subword != -1): ent_subword_mean.append(ent_subword)
-        else: ent_subword_zero += 1
-
-        fd.write('state %d, freq %d, freq_no_sw %d, w_ent %.4f, ent_stopword %.4g, ent_subword %.4g \n' % 
-          (z_i, z_freq_stats[z_i], z_freq_stats_no_sw[z_i], w_ent, ent_stopword, ent_subword))
+        fd.write('state %d freq %d freq_no_sw %d\n' % 
+          (z_i, z_freq_stats[z_i], z_freq_stats_no_sw[z_i]))
         fd_sw.write('state %d freq %d freq_sw %d freq_no_sw %d\n' % 
             (z_i, z_freq_stats[z_i], 
-            z_freq_stats[z_i] - z_freq_stats_no_sw[z_i], 
-            z_freq_stats_no_sw[z_i]
+             z_freq_stats[z_i] - z_freq_stats_no_sw[z_i], 
+             z_freq_stats_no_sw[z_i]
             )
           )
         # write word
@@ -750,7 +660,7 @@ class BertNet(FRModel):
           w = dataset.tokenizer.ids_to_tokens[w_ij]
           w_freq = self.aggregated_posterior[z_i, w_ij]
 
-          if(printed_sw < 60 and w_freq > 0):
+          if(printed_sw < 60):
             fd_sw.write('%s %d | ' % (w, w_freq))
             printed_sw += 1
 
@@ -761,48 +671,29 @@ class BertNet(FRModel):
 
         fd.write('\n--------\n')
         fd_sw.write('\n--------\n')
-      fd_sw.close()
+    fd_sw.close()
 
-      filename = output_path_base + '_epoch_%d_w2s.txt' % ei
-      print('Writing word-state aggregated posterior to %s' % filename)
-      with open(filename, 'w') as fd:
-        aggregated_posterior_inv = np.transpose(self.aggregated_posterior, (1, 0))
-        w_freq_stats = aggregated_posterior_inv.sum(-1)
-        ind = np.argsort(w_freq_stats)[::-1]
-        for i in range(self.model.vocab_size):
-          w_i = ind[i]
-          w = dataset.tokenizer.ids_to_tokens[w_i]
-          fd.write('word %s freq %d\n' % (w, w_freq_stats[w_i]))
-          z_ind = np.argsort(aggregated_posterior_inv[w_i])[::-1]
-          printed = 0
-          for z_ij in z_ind:
-            fd.write('s%d f%d | ' % (z_ij, aggregated_posterior_inv[w_i, z_ij]))
-            printed += 1
-            if(printed == 50): break
-          fd.write('\n--------\n')
-      fd.close()
+    filename = output_path_base + '_epoch_%d_w2s.txt' % ei
+    print('Writing word-state aggregated posterior to %s' % filename)
+    with open(filename, 'w') as fd:
+      aggregated_posterior_inv = np.transpose(self.aggregated_posterior, (1, 0))
+      w_freq_stats = aggregated_posterior_inv.sum(-1)
+      ind = np.argsort(w_freq_stats)[::-1]
+      for i in tqdm(range(self.model.vocab_size)):
+        w_i = ind[i]
+        w = dataset.tokenizer.ids_to_tokens[w_i]
+        fd.write('word %s freq %d\n' % (w, w_freq_stats[w_i]))
+        z_ind = np.argsort(aggregated_posterior_inv[w_i])[::-1]
+        printed = 0
+        for z_ij in z_ind:
+          fd.write('s%d f%d | ' % (z_ij, aggregated_posterior_inv[w_i, z_ij]))
+          printed += 1
+          if(printed == 50): break
+        fd.write('\n--------\n')
 
-    scores['total_zero'] = total_zero
-    scores['w_ent'] = np.average(w_ent_mean)
-    scores['w_ent_zero'] = w_ent_zero
-    scores['ent_stopword'] = np.average(ent_stopword_mean)
-    scores['ent_stopword_zero'] = ent_stopword_zero
-    scores['ent_subword'] = np.average(ent_subword_mean)
-    scores['ent_subword_zero'] = ent_subword_zero
+    ## Compute F1 score 
 
-    if(mode == 'dev'):
-      state_eval_outputs, not_aligned_occ, latent_word_dict_repr = self.eval_suite.eval_state(outputs)
-      scores.update(state_eval_outputs)
-
-      with open(output_path_base + '_epoch_%d_not_aligned.txt' % ei, 'w') as fd:
-        for l, c in not_aligned_occ:
-          fd.write('state %d cnt %d\n' % (l, c))
-          printed = 0
-          for w in latent_word_dict_repr[l]:
-            fd.write('%s %d | ' % (w, latent_word_dict_repr[l][w]))
-            printed += 1
-            if(printed == 10): break
-          fd.write('\n\n')
+    ## Compute V score
 
     # # write state bigram 
     # _, z_bigram_nostop = self.state_ngram_stats(

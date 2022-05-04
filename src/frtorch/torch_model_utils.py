@@ -846,8 +846,7 @@ def load_partial_state_dict(model, state_dict):
     print('loading: %s ' % name)
     own_params -= set(name)
     own_state[name].copy_(param)
-  print('%d parameters not initialized: ' % len(own_params))
-  for n in own_params: print(n)
+  return 
 
 
 def print_params(model):

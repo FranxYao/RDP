@@ -52,7 +52,7 @@ class News20Dataset(Dataset):
 class News20Data(object):
   """Processed 20News Dataset. 
   """
-  def __init__(self, data_path='../data/news/', batch_size=10):
+  def __init__(self, data_path='../data/news/', batch_size=10, is_test=False):
     super(News20Data, self).__init__()
     print('Processing dataset ...')
 
@@ -64,28 +64,29 @@ class News20Data(object):
       data = fd.readlines()
     print('... %d seconds' % (time() - start_time))
 
-    train_size = int(0.6 * len(data))
-    dev_size = int(0.2 * len(data))
-    test_size = len(data) - train_size - dev_size
-    train_data, dev_data, test_data = random_split(
-      data, (train_size, dev_size, test_size))
-    train_data = [l[:-1] for l in train_data]
-    dev_data = [l[:-1] for l in dev_data]
-    test_data = [l[:-1] for l in test_data]
+    # TODO: set train index and dev index 
+    train_idx = np.load(data_path + 'train_idx.npy')
+    dev_idx = np.load(data_path + 'dev_idx.npy')
+    test_idx = np.load(data_path + 'test_idx.npy')
+
+    train_data = [data[i][:-1] for i in train_idx]
+    dev_data = [data[i][:-1] for i in dev_idx]
+    test_data = [data[i][:-1] for i in test_idx]
 
     self.tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
-    print('Tokenizing and sorting train data ...')
-    start_time = time()
-    train_data = self.tokenizer(train_data)
-    train_data_ = []
-    for s, a in zip(train_data['input_ids'], train_data['attention_mask']):
-      if(len(s) > 2):
-        train_data_.append((s, a))
-    train_data_.sort(key=lambda x: len(x[0]))
-    train_data = train_data_
-    print('... %d seconds' % (time() - start_time))
+    if(is_test == False):
+      print('Tokenizing and sorting train data ...')
+      start_time = time()
+      train_data = self.tokenizer(train_data)
+      train_data_ = []
+      for s, a in zip(train_data['input_ids'], train_data['attention_mask']):
+        if(len(s) > 2):
+          train_data_.append((s, a))
+      train_data_.sort(key=lambda x: len(x[0]))
+      train_data = train_data_
+      print('... %d seconds' % (time() - start_time))
 
-    print('Tokenizing and sorting dev data ...')
+    print('Tokenizing dev data ...')
     start_time = time()
     dev_data = self.tokenizer(dev_data)
     dev_data_ = []
@@ -93,10 +94,14 @@ class News20Data(object):
       if(len(s) > 2):
         dev_data_.append((s, a))
     dev_data = dev_data_
-    dev_data.sort(key=lambda x: len(x[0]))
+    # dev_data.sort(key=lambda x: len(x[0]))
+
+    # Read dev data POS Tags and NER tags
+
+    # Read dev data bert2spacy tokenization mapping
     print('... %d seconds' % (time() - start_time))
 
-    print('Tokenizing and sorting test data ...')
+    print('Tokenizing test data ...')
     start_time = time()
     test_data = self.tokenizer(test_data)
     test_data_ = []
@@ -104,17 +109,22 @@ class News20Data(object):
       if(len(s) > 2):
         test_data_.append((s, a))
     test_data = test_data_
-    test_data.sort(key=lambda x: len(x[0]))
+    # test_data.sort(key=lambda x: len(x[0]))
     print('... %d seconds' % (time() - start_time))
 
-    self.train_dataset = News20Dataset(train_data)
+    # Test data annotation
+    if(is_test == False):
+      self.train_dataset = News20Dataset(train_data)
+    else: self.train_dataset = None
     self.dev_dataset = News20Dataset(dev_data)
     self.test_dataset = News20Dataset(test_data)
     return 
 
   @property
   def num_batch_per_epoch(self):
-    num_batch = len(self.train_dataset) // self.batch_size
+    if(self.train_dataset is not None):
+      num_batch = len(self.train_dataset) // self.batch_size
+    else: num_batch = -1
     return num_batch
 
   def train_dataloader(self):

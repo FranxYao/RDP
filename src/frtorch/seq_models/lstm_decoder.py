@@ -194,13 +194,13 @@ class LSTMDecoder(nn.Module):
     dec_targets = dec_targets.transpose(0, 1)
     log_prob = []
     predictions = []
-    attn_dist = []
+    # attn_dist = []
     pred_dist = []
     for i in range(max_dec_len):
-      dec_out, state, attn_dist_t = self.forward(
-        dec_inputs[i], state, mem_emb, mem_mask, hetero_mem, hetero_mask, True)
+      dec_out, state = self.forward(
+        dec_inputs[i], state, mem_emb, mem_mask, hetero_mem, hetero_mask, False)
 
-      attn_dist.append(attn_dist_t)
+      # attn_dist.append(attn_dist_t)
 
       dec_out = dec_out[0]
       lm_logits = self.output_proj(dec_out)
@@ -229,7 +229,7 @@ class LSTMDecoder(nn.Module):
     log_prob.masked_fill_(mask == 0, 0.) 
     log_prob = log_prob.sum() / mask.sum()
     predictions = torch.stack(predictions).transpose(0, 1)
-    attn_dist = torch.stack(attn_dist).transpose(0, 1) # [B, T, M]
+    # attn_dist = torch.stack(attn_dist).transpose(0, 1) # [B, T, M]
     pred_dist = torch.stack(pred_dist).transpose(0, 1) # [B, T, V]
     if(return_attn): return log_prob, predictions, attn_dist, pred_dist
     else: return log_prob, predictions

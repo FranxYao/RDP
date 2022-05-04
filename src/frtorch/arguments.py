@@ -32,52 +32,58 @@ def set_arguments(args):
     * The final arguments are printed out
   """
   ## build model saving path 
-  model = args.model_name + "_" + args.model_version
-  output_path = args.output_path + model 
-  model_path = args.model_path + model
-  tensorboard_path = args.tensorboard_path + model + '_'
-  tensorboard_path += datetime.now().strftime("%m.%d.%Y_%H.%M.%S")
-  if(not args.is_test):
-    # Training mode, create directory for storing model and outputs
-    print('model path: %s' % model_path)
+  # model = args.model_name + "_" + args.model_version
+  # output_path = args.output_path + model 
+  # model_path = args.model_path + model
 
-    if(os.path.exists(model_path)):
-      if(args.load_ckpt):
-        print('load model check points, do not refresh the directories')
-      else:
-        print('removing existing cache directories')
-        print('removing %s' % model_path)
-        shutil.rmtree(model_path)
-        os.mkdir(model_path)
-        if(os.path.exists(output_path)): 
-          print('removing %s' % output_path)
-          shutil.rmtree(output_path)
-        os.mkdir(output_path)
-        if(args.use_tensorboard):
-          for p in os.listdir(args.tensorboard_path):
-            if(p.startswith(model)): 
-              try:
-                shutil.rmtree(args.tensorboard_path + p)
-              except:
-                print('cannot remove %s, pass' % (args.tensorboard_path + p))
-          os.mkdir(tensorboard_path)
-    else:
-      os.mkdir(model_path)
-      os.mkdir(output_path)
-      os.mkdir(output_path + '/fig')
-  else: 
-    pass  # test mode, do not create any directory 
+  # tensorboard_path = args.tensorboard_path + model + '_'
+  # tensorboard_path += datetime.now().strftime("%m.%d.%Y_%H.%M.%S")
+  # if(not args.is_test):
+  #   # Training mode, create directory for storing model and outputs
+  #   print('model path: %s' % model_path)
 
-  args.model_path = model_path + '/'
-  args.output_path = output_path + '/'
-  args.tensorboard_path = tensorboard_path + '/'
-  args.output_path_fig = output_path + '/fig/'
+  #   if(os.path.exists(model_path)):
+  #     if(args.load_ckpt):
+  #       print('load model check points, do not refresh the directories')
+  #     else:
+  #       print('removing existing cache directories')
+  #       print('removing %s' % model_path)
+  #       shutil.rmtree(model_path)
+  #       os.mkdir(model_path)
+  #       if(os.path.exists(output_path)): 
+  #         print('removing %s' % output_path)
+  #         shutil.rmtree(output_path)
+  #       os.mkdir(output_path)
+  #       if(args.use_tensorboard):
+  #         for p in os.listdir(args.tensorboard_path):
+  #           if(p.startswith(model)): 
+  #             try:
+  #               shutil.rmtree(args.tensorboard_path + p)
+  #             except:
+  #               print('cannot remove %s, pass' % (args.tensorboard_path + p))
+  #         os.mkdir(tensorboard_path)
+  #   else:
+  #     os.mkdir(model_path)
+  #     os.mkdir(output_path)
+  #     os.mkdir(output_path + '/fig')
+  # else: 
+  #   if(os.path.exists(output_path)):
+  #     print('output path %s exist' % output_path)
+  #     print('overwrite existing content in %s' % output_path)
+  #   else:
+  #     print('output path %s does not exist, create one' % output_path)
+  #     os.mkdir(output_path)
+
+  args.model_path = args.model_path + '/'
+  args.output_path = args.output_path + '/'
+  # args.tensorboard_path = tensorboard_path + '/'
+  # args.output_path_fig = output_path + '/fig/'
 
   # set log path
-  if(args.log_print_to_file): 
-    print('All printed log also written in: %s' % 
-      args.output_path + 'train_log.txt')
-    sys.stdout = PrintLog(args.output_path + 'train_log.txt')
+  # if(args.log_print_to_file): 
+  #   print('All printed log also written in: %s' % 
+  #     args.output_path + 'train_log.txt')
+  #   sys.stdout = PrintLog(args.output_path + 'train_log.txt')
 
   # set gpu 
   os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"   

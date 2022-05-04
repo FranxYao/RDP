@@ -1,6 +1,6 @@
 import numpy as np
 import sys
-from torch.utils.tensorboard import SummaryWriter
+# from torch.utils.tensorboard import SummaryWriter
 
 class TrainingLog(object):
   def __init__(self, model_name, output_path, 

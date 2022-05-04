@@ -76,7 +76,7 @@ class LinearChainCRF(nn.Module):
     seq_len = emission.size(1)
     num_state = emission.size(2)
 
-    # scores[batch, t, C, C] = log_potential(t, from y_{t-1}, to y_t)
+    # scores[batch, t, C, C] = log_potentials(t, from y_{t-1}, to y_t)
     if(len(transition.size()) == 2):
       log_potentials = transition.view(1, 1, num_state, num_state)\
         .expand(batch_size, seq_len, num_state, num_state) + \
@@ -181,7 +181,8 @@ class LinearChainCRF(nn.Module):
                     transition_proposal='none',
                     sample_size=1,
                     topk_sum=False,
-                    return_correction=False
+                    return_correction=False,
+                    topk_proposal=False,
                     ):
     """Sample states for
     * Randomized Forward
@@ -258,7 +259,11 @@ class LinearChainCRF(nn.Module):
     # [B * T, 1]
     # TODO: sample from multinomial; add transition prior to proposal 
     # sample_proposal_dist = Categorical(probs=proposal_renorm)
-    sampled_index = torch.multinomial(proposal_renorm, sample_size)
+    if(topk_proposal == False):
+      sampled_index = torch.multinomial(proposal_renorm, sample_size)
+    else:
+      _, sampled_index = torch.topk(proposal_renorm, sample_size, dim=-1)
+
     # [B * T, 1]
     sample_log_prob = tmu.batch_index_select(proposal_renorm, sampled_index)
     sample_log_prob = (sample_log_prob + 1e-8).log()
@@ -309,6 +314,7 @@ class LinearChainCRF(nn.Module):
 
     # NOTE: currently do not do bias, and do not normalize. Assume already 
     # normlized as unit vectors
+    # import pdb; pdb.set_trace()
     sampled_transition = torch.matmul(sampled_transition[:, :-1], 
       sampled_transition[:, 1:].transpose(2, 3))
     if(self.potential_normalization == 'minmax'):
@@ -536,7 +542,27 @@ class LinearChainCRF(nn.Module):
   #   log_marginal = alpha_ + beta_ - log_Z.unsqueeze(1)
   #   return log_marginal
 
-  def argmax(self, transition_potentials, emission_potentials, seq_lens):
+  def proposal_argmax(self, state_matrix, emission_potentials, seq_lens, 
+    sum_size, proposal='softmax', transition_proposal='none', sample_size=1):
+    """Corrected argmax implementation under a proposal"""
+    combined_index, combined_emission, sampled_states, log_potentials, _ =\
+      self.sample_states(state_matrix, emission_potentials, 
+      seq_lens, sum_size, proposal, transition_proposal, sample_size, 
+      topk_sum=False, topk_proposal=True)
+
+    max_seq, _ = self.argmax(None, combined_emission, seq_lens, log_potentials)
+
+    sum_sample_size = combined_index.size(2)
+    batch_size = emission_potentials.size(0)
+    max_len = emission_potentials.size(1)
+    max_seq = tmu.batch_index_select(
+      combined_index.view(batch_size * max_len, sum_sample_size),
+      max_seq.view(batch_size * max_len)
+      ).view(batch_size, max_len)
+    return max_seq
+
+  def argmax(self, transition_potentials, emission_potentials, seq_lens, 
+    log_potentials=None):
     """Viterbi decoding.
 
     Args:
@@ -549,11 +575,14 @@ class LinearChainCRF(nn.Module):
       y_potential: float tensor, [batch]
     """
     device = emission_potentials.device
-    transition_potentials, emission_potentials = self.normalize(
-      transition_potentials, emission_potentials)
 
-    log_potentials = self.combine_potentials(
+    if(log_potentials is None):
+      transition_potentials, emission_potentials = self.normalize(
         transition_potentials, emission_potentials)
+
+      log_potentials = self.combine_potentials(
+          transition_potentials, emission_potentials)
+    else: pass # NOTE: here we assume no need to normalize emission potentials
     batch_size = log_potentials.size(0)
     seq_len = log_potentials.size(1)
     num_state = log_potentials.size(2)
@@ -571,6 +600,8 @@ class LinearChainCRF(nn.Module):
       bp[:, t] = s_.argmax(dim=1) # [B, C]
 
     # backtracking
+    s_orig = s
+    bp_orig = bp
     s = tmu.reverse_sequence(s, seq_lens)
     bp = tmu.reverse_sequence(bp, seq_lens)
     y = torch.zeros(batch_size, seq_len).to(device).long()
@@ -737,7 +768,7 @@ class LinearChainCRF(nn.Module):
     mask = tmu.length_to_mask(seq_lens, max_len).type(torch.float)
     prev_p = p
     for i in range(1, max_len):
-      # y_after_to_current[j, k] = log_potential(y_{t - 1} = k, y_t = j, x_t)
+      # y_after_to_current[j, k] = log_potentials(y_{t - 1} = k, y_t = j, x_t)
       # size=[batch, num_state, num_state]
       y_after_to_current = log_potentials_rev[:, i-1].transpose(1, 2)
       # w.size=[batch, num_state]
@@ -830,9 +861,9 @@ class LinearChainCRF(nn.Module):
 
     sample_rev[:, :, 0] = sample
     sample_log_prob[:, :, 0] = sample_log_p
-    # TODO: update log_potential implementation
+    # TODO: update log_potentials implementation
     for i in range(1, max_len):
-      # y_after_to_current[j, k] = log_potential(y_{t - 1} = k, y_t = j, x_t)
+      # y_after_to_current[j, k] = log_potentials(y_{t - 1} = k, y_t = j, x_t)
       # size=[batch, num_state, num_state]
       y_after_to_current = log_potentials_rev[:, i-1].transpose(1, 2)
       # [B, k]

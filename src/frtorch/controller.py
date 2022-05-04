@@ -43,8 +43,8 @@ class Controller(object):
     # self.write_output_full = args.write_output_full
 
     self.validation_scores = {}
-    for n in model.validation_scores:
-      self.validation_scores[n] = []
+    # for n in model.validation_scores:
+    #   self.validation_scores[n] = []
     self.save_checkpoints = args.save_checkpoints
 
     self.num_epoch = args.num_epoch
@@ -194,16 +194,16 @@ class Controller(object):
         print('----------------------------------------------------------------')
         print()
 
-        test_criteria, test_scores = self.validate(
-          model, dataset, ei, n_iter, 'test')
-        for s in test_scores:
-          if(s not in history_test): history_test[s] = [test_scores[s]]
-          else: history_test[s].append(test_scores[s])
-        print('test scores:')
-        print(DataFrame(test_scores, index=['values']))
-        print('history test scores:')
-        print(DataFrame(history_test))
-        # tmu.pprint_dict_nums(history_test, index_list=True)
+        # NOTE: currently skip testing
+        # test_criteria, test_scores = self.validate(
+        #   model, dataset, ei, n_iter, 'test')
+        # for s in test_scores:
+        #   if(s not in history_test): history_test[s] = [test_scores[s]]
+        #   else: history_test[s].append(test_scores[s])
+        # print('test scores:')
+        # print(DataFrame(test_scores, index=['values']))
+        # print('history test scores:')
+        # print(DataFrame(history_test))
       else: 
         print('validate_start_epoch = %d, current %d, do not validate' % 
           (self.validate_start_epoch, ei))
@@ -246,7 +246,7 @@ class Controller(object):
     print('%d batches in total' % num_batches)
 
     start_time = time()
-    for bi, batch in tqdm(enumerate(dataloader)):
+    for bi, batch in enumerate(dataloader):
       # for n in batch: 
       #   if(isinstance(batch[n], torch.Tensor)):
       #     batch[n] = batch[n].to(self.device)
@@ -264,6 +264,7 @@ class Controller(object):
         dataset.write_output_batch(fd, batch, out_dict, mode, ei, bi)
     print('')
 
+    # import pdb; pdb.set_trace()
     val_end_scores = model.val_end(
       outputs, n_iter, ei, bi, dataset, mode, output_path_base)
 

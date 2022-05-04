@@ -6,6 +6,7 @@ from data_utils import News20Data, BBNData, MSCOCOData
 from bertnet import BertNetModel, BertNet
 from gpt2net import GPT2NetModel, GPT2Net
 
+from pprint import pprint
 from frtorch import torch_model_utils as tmu
 from frtorch import str2bool, set_arguments, Controller
 
@@ -149,6 +150,9 @@ def define_argument():
     "--task", type=str, default='density',
     help='density, paraphrase')
   parser.add_argument(
+    "--emb_type", type=str, default='contextualized', 
+    choices=['static', 'static_pos', 'positional', 'contextualized'])
+  parser.add_argument(
     "--z_beta_init", type=float, default=1.0)
   parser.add_argument(
     "--z_beta_final", type=float, default=1.0)
@@ -169,7 +173,7 @@ def define_argument():
   # parser.add_argument( # OBSOLETE, use crf_weight_norm instead
   #   "--use_sphere_norm", type=str2bool, default=True)
   parser.add_argument(
-    "--ent_approx", type=str, default='log_prob')
+    "--ent_approx", type=str, default='softmax', choices=['softmax', 'rdp'])
   parser.add_argument(
     "--crf_weight_norm", type=str, default='none')
   parser.add_argument( 
@@ -220,7 +224,7 @@ def main():
     dataset = BBNData(args.data_path, args.batch_size)
   elif(args.dataset == '20news'):
     print('Using dataset 20news')
-    dataset = News20Data(batch_size=args.batch_size)
+    dataset = News20Data(batch_size=args.batch_size, is_test=args.is_test)
   elif(args.dataset == 'mscoco'):
     print('Using dataset mscoco')
     dataset = MSCOCOData(batch_size=args.batch_size, 
@@ -245,6 +249,7 @@ def main():
     print('Using model bertnet')
     model_ = BertNetModel(num_state=args.num_state, 
                           transition_init_scale=args.transition_init_scale,
+                          encoder_type=args.encoder_type,
                           exact_rsample=args.exact_rsample,
                           sum_size=args.sum_size,
                           sample_size=args.sample_size,
@@ -257,7 +262,9 @@ def main():
                           potential_normalization=args.potential_normalization,
                           potential_scale=args.potential_scale,
                           topk_sum=args.topk_sum,
+                          emb_type=args.emb_type,
                           # z_st=args.z_st
+                          # pad_id=dataset.tokenizer.pad_token_id
                           ).to(args.device)
     model = BertNet(model=model_,
                     learning_rate=args.learning_rate,
@@ -272,7 +279,8 @@ def main():
                     z_beta_final=args.z_beta_final,
                     anneal_beta_with_lambd=args.anneal_beta_with_lambd,
                     save_mode=args.save_mode,
-                    anneal_z_prob=args.anneal_z_prob
+                    anneal_z_prob=args.anneal_z_prob,
+                    data_path=dataset.data_path
                     )
   elif(args.model_name in ['gpt2net', 'gpt2net_lm', 'gpt2net_paraphrase']):
     print('Using model gptnet')
@@ -337,11 +345,11 @@ def main():
     controller.train(model, dataset)
   else:
     print('Loading model from: %s' % args.pretrained_model_path)
-    checkpoint = torch.load(args.pretrained_model_path)
     # tmu.load_partial_state_dict(model, checkpoint['model_state_dict'])
-    model.load_state_dict(checkpoint['model_state_dict'])
+    model.load(args.pretrained_model_path)
     model.to(args.device)
-    controller.test_model(model, dataset, ckpt_e)
+    _, scores = controller.validate(model, dataset, -1, -1)
+    pprint(scores)
   return 
 
 
