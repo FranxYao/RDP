@@ -1,7 +1,7 @@
 #! /bin/bash
 #SBATCH --output=/home/%u/slurm_logs/slurm-%x-%A-%a.out
 #SBATCH --error=/home/%u/slurm_logs/slurm-%x-%A-%a.out
-#SBATCH --job-name=bert_0.0.6.4
+#SBATCH --job-name=bert_0.0.6.4_test
 #SBATCH --nodes=1
 #SBATCH --gres=gpu:1
 #SBATCH --mem=16g

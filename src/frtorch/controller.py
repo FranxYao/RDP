@@ -227,12 +227,6 @@ class Controller(object):
     model.eval()
 
     output_path_base = self.output_path + self.model_name + '_' + mode
-    if(self.write_output):
-      fd = open(output_path_base + '_epoch_%d.txt' % ei, 'w')
-    else: fd = None
-    # if(self.write_output_full):
-    #   fd_full = open(output_path_base + '_epoch_%d_full.txt' % ei, 'w')
-    # else: fd_full = None
 
     inspect_at = np.random.randint(self.print_log_per_nbatch)
 
@@ -260,19 +254,12 @@ class Controller(object):
       if(bi % 20 == 0): 
         print('.', end=' ', flush=True)
       # if(self.fast_test_pipeline and bi == 50): break
-      if(self.write_output):
-        dataset.write_output_batch(fd, batch, out_dict, mode, ei, bi)
+
     print('')
 
     # import pdb; pdb.set_trace()
     val_end_scores = model.val_end(
       outputs, n_iter, ei, bi, dataset, mode, output_path_base)
-
-    # if(self.write_output):
-    #   dataset.write_output_full(batches, outputs, mode, e_id)
-
-    if(self.write_output): fd.close()
-    # if(self.write_output_full): fd_full.close()
 
     # average dev scores
     for n in scores: 

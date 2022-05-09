@@ -229,6 +229,21 @@ class LatentStateEval(object):
     not_covered_r = 1 - total_covered / full_occ
     out_dict['not_covered_r'] = not_covered_r
 
+    ## Computer occurrence of aligned tags
+    aligned_occ = []
+    static_keys = set(latent_to_pos.keys())\
+                      .union(set(latent_to_ent.keys()))
+    dynamic_keys = set(latent_to_fine_pos.keys())\
+                      .union(set(latent_to_bcn.keys()))\
+                      .union(set(latent_to_ccg.keys()))
+    for l in total_aligned: 
+      if(l in static_keys and l not in dynamic_keys): l_type = 0
+      elif(l in dynamic_keys and l not in static_keys): l_type = 1
+      elif(l in dynamic_keys and l in static_keys): l_type = 2
+      else: raise ValueError('label not aligned')
+      aligned_occ.append((l, l_type, np.sum(list(latent_word_dict_repr[l].values()))))
+    aligned_occ.sort(key=lambda x:x[2], reverse=True)
+
     ## How many states covers 90% of the not aligned tags
     not_aligned = set(range(2000)) - total_aligned
     not_aligned_occ = []
@@ -267,7 +282,7 @@ class LatentStateEval(object):
                                   self.ent_to_id, self.id_to_ent, latent_to_ent)
     out_dict['ent_prec'] = ent_prec
     out_dict['ent_recl'] = ent_recl
-    return out_dict, not_aligned_occ, latent_word_dict_repr
+    return out_dict, not_aligned_occ, aligned_occ, latent_word_dict_repr
 
 def compute_w_ent(w_dist):
   if(w_dist.sum() == 0): return 0

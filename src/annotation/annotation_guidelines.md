@@ -12,9 +12,10 @@ Table of Content:
   - [File Format](#file-format)
   - [Examples of LEX cluster](#examples-of-lex-cluster)
   - [Examples of SYN cluster](#examples-of-syn-cluster)
+  - [Differences between LEX and SYN](#differences-between-lex-and-syn)
   - [Examples of SEM cluster](#examples-of-sem-cluster)
   - [Differences between SYN and SEM](#differences-between-syn-and-sem)
-  - [If the clusters can be of more than one classes](#if-the-clusters-can-be-of-more-than-one-classes)
+  - [If the clusters can be of more than one classes, follow the priority SEM > SYN > LEX](#if-the-clusters-can-be-of-more-than-one-classes-follow-the-priority-sem--syn--lex)
   - [If you are still not sure](#if-you-are-still-not-sure)
 
 ## File Format
@@ -25,7 +26,7 @@ these 516 | them 359 | those 155 |
 ```
 where 
 * "state 257" = the word cluster whose index is 257
-* "cnt 1030" = the total occurrence of this state within the data is 1030, i.e., it appears 1030 times 
+* "cnt 1030" = the total occurrence of this state within the data (where the clusters are extracted) is 1030, i.e., it appears 1030 times 
 * "these 516" = the word "these" appears 516 times within this cluster (out of 1030 occurrences)
 * The words are ranked according to their occurrence. Frequent words will come before infrequent words
 * Similarly, clusters are ranked according to their occurrence. Frequent clusters will come before infrequent clusters
@@ -41,6 +42,8 @@ You should directly fill your answers in the provided files. There is not much c
 After you have finished, send the two files (output1.txt and output2.txt) back to yao.fu@ed.ac.uk
 
 ## Examples of LEX cluster
+Generally, lexical cluster are words simply look like each other by their appearance. The above "these", "them", "those" cluster is an example. So if you see a cluster with "he", "her", "hers", "his", then it is a LEX cluster. 
+
 Other examples of LEX clusters are: 
 ```
 state 837 cnt 2703 type=LEX
@@ -66,13 +69,16 @@ clh 24 | cl 9 | vram 8 | cray 7 | clesun 7 | cr 5 | br 5
 ```
 This is a LEX cluster because most of the tokens starts with a "c"
 
+When judging if a cluster is a lexical cluster, simply look at the words and see if they look similar to each other. 
+
 ## Examples of SYN cluster
+Different from lexical cluster, syntactic cluster are words playing similar roles when using them to construct sentences. Usually they come with similar part of speeches or syntactic changes. For example:
 
 ```
 state 1245 cnt 828 SYN
-me 350 | them 193 | person 74 | him 70 | people 57 | everyone 45
+me 350 | them 193 | we 74 | him 70 | people 57 | everyone 45
 ```
-This is a SYN cluster because most tokens are pronouns
+This is a SYN cluster because most tokens are pronouns (although "people" is not a pronoun, we still treat it as a SYN cluster because most of the words are pronouns)
 
 ```
 state 1402 cnt 578 SYN
@@ -90,9 +96,20 @@ This is a SYN cluster because most tokens are plural nouns
 state 1329 cnt 385 SYN
 based 43 | made 21 | produced 15 | replaced 15 | handled 8 | handed 7 | corrected 6 | printed 6 | measured 6 | updated 5
 ```
-This is a SYN cluster because most tokens are verbs of their past time form
+This is a SYN cluster because most tokens are verbs of their past time form.
+
+Other examples includes: words ending with "ing" like "going", "working", "shopping" which mean present continuous tense, words ending with "ment" like "development", "government" which are all nouns sharing the same suffix. 
+
+## Differences between LEX and SYN
+
+LEX clusters are words simply looks like each other by their appearance, which does NOT involve constructing sentences. On the contrary, SYN clusters are words playing similar roles when using them to construct sentences. Try compare:
+* they, those, them (all stem from they and simply look like each other, this is a LEX cluster)
+* they, he, she (all pronouns and can be used as subjects in sentences, this is a SYN cluster)
+note that in the first cluster, when used for constructing sentences, "they" is the subject and "them" is the object, so the two words play different roles in constructing sentences. Thus this is not a SYN cluster. Within SYN clusters, words should play the similar roles in constructing sentences. 
 
 ## Examples of SEM cluster
+A SEM cluster is a cluster of words with related meaning. 
+
 ```
 state 581 cnt 269 SEM
 evidence 107 | suggest 41 | indicates 14 | indicate 14 | suggested 13 | imply 13 | implies 12
@@ -119,12 +136,14 @@ paper 39 | report 34 | reports 31 | published 23 | documents 21 | documentation 
 ```
 This is a SEM cluster because all these words about about publishing papers/ documents/ reports. They are of the same mearning group
 
-## If the clusters can be of more than one classes
+## If the clusters can be of more than one classes, follow the priority SEM > SYN > LEX
 For example, if the cluster is like:
 ```
 papers 101 | pens 82 | tables 37 | chairs 22 | computers 12
 ```
-These are all words about office tools (SEM) and also plural nouns (SYN). In this case choose SEM over SYN
+These are all words about office tools (SEM) and also plural nouns (SYN). 
+
+The rule is to follow the priority SEM > SYN > LEX (for now you can ignore why we have this priority -- it comes from linguistic theories). So in this case, just choose SEM over SYN.
 
 Another example is:
 ```
@@ -136,12 +155,16 @@ Similarly, if a cluster contain words that looks liks noise, like:
 ```
 known 43 | pub 34 | similar 34 | related 28 | various 23 | relevant 15 | derived 13 | compare 12 | compared 11 | compatible 10
 ```
-where the words "similar", "related", "compare" are semantically close to each other, but the word "pub" and "known" seems to be far away. In this case, since "similar", "related", "compare" are of the majority, we label this cluster as a SEM cluster
+This case is a little bit complicated. Firstly it contains words with the same stems "compare", "compared", "compatible". If it only has these three words, then it should be a LEX cluster. But it also contain words like "similar", "related", "relevant" whose meaning is related to "compare", so it looks like a SEM cluster. Finally, there is also a word "pub" which seems to have nothing to do with the rest of words. How should we decide? 
+
+Again, the rule is to follow the priority SEM > SYN > LEX. If you could assign it as SEM, then do not assign it SYN or LEX, even the words within are syntactically or lexically similar. 
+ In this case, since "similar", "related", "compare" are of the majority and they have related mearning, we label this cluster as a SEM cluster, and we ignore the "pub" and treat it as a noise. 
+
 
 ## If you are still not sure 
-If you cannot decide if a cluster is more like SYN or SEM, trust your instinct -- human instinct itself is a is value tool for evaluating AI models. 
+If you still cannot decide if a cluster is more like LEX or SYN or SEM, trust your instinct -- human instinct itself is a valuable tool for evaluating AI models. 
 
-If you cannot make out any sense from a cluster, set is as NA. For example: 
+Try to make the most sence from a given cluster first. But if you cannot make out any sense from a cluster in any ways, set is as NA. For example: 
 ```
 state 665 cnt 334 NA
 regards 22 | morality 16 | nature 13 | respect 12 | sensitivity 10 | attitude 9 | behavior 8 | weakness 7 | orientation 6 | relativity 6

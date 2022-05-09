@@ -615,8 +615,14 @@ class BertNet(FRModel):
     z_ngram_stop = dict()
     z_ngram_cnt_nostop = []
     z_ngram_cnt_stop = []
+    z_ngram_cnt_both = []
+    z_ngram_both = dict()
+    pad_id = dataset.tokenizer.convert_tokens_to_ids('[PAD]')
     for out_dict in outputs:
       for z, x in zip(out_dict['z_sample'], out_dict['input_ids']):
+        x_len = (x != pad_id).sum()
+        x = x[1:x_len - 1]
+        z = z[1:x_len - 1]
         len_z = len(z)
         if(len_z < n): continue 
         for i in range(len_z - n + 1):
@@ -625,6 +631,12 @@ class BertNet(FRModel):
             dataset.tokenizer.ids_to_tokens[x[j]] for j in range(i, i + n)]
           w_b_set = set(w_b)
           w_b = '-'.join(w_b)
+
+          z_ngram_cnt_both.append(z_b)
+          if(z_b not in z_ngram_both): z_ngram_both[z_b] = dict()
+          else: 
+            if(w_b not in z_ngram_both[z_b]): z_ngram_both[z_b][w_b] = 1
+            else: z_ngram_both[z_b][w_b] += 1
 
           if(len(w_b_set & self.stopwords) > 0):
             z_ngram_cnt_stop.append(z_b)
@@ -651,16 +663,19 @@ class BertNet(FRModel):
     print('Writing state %dgram to %s, with stop words' % (n, filename))
     with open(filename, 'w') as fd:
       z_ngram_cnt_stop = Counter(z_ngram_cnt_stop)
-      for zb, f in z_ngram_cnt_stop.most_common(2000):
-        fd.write('state %dgram %s freq %d\n' % (n, zb, f))
+      write_cnt = 0
+      for zb, f in z_ngram_cnt_stop.most_common():
         wb_list = [(wb, z_ngram_stop[zb][wb]) for wb in z_ngram_stop[zb]]
         wb_list.sort(key=lambda x: x[1])
         wb_list.reverse()
-        for wb, f in wb_list:
-          fd.write('%s %d | ' % (wb, f))
-        fd.write('\n----\n')
         z_ngram_stop[zb] = wb_list
-
+        if(write_cnt < 2000):
+          fd.write('state %dgram %s freq %d\n' % (n, zb, f))
+          for wb, f in wb_list:
+            fd.write('%s %d | ' % (wb, f))
+          fd.write('\n----\n')
+          write_cnt += 1
+        
     filename = output_path_base + '_epoch_%d_state_%dgram_no_sw.txt' % (ei, n)
     print('Writing state %dgram to %s, no stop words' % (n, filename))
     with open(filename, 'w') as fd:
@@ -677,8 +692,31 @@ class BertNet(FRModel):
             fd.write('%s %d | ' % (wb, f))
           fd.write('\n----\n')
           write_cnt += 1
+
+    filename = output_path_base + '_epoch_%d_state_%dgram_both.txt' % (ei, n)
+    print('Writing state %dgram to %s, with stop and nonstop words' % (n, filename))
+    with open(filename, 'w') as fd:
+      z_ngram_cnt_both = Counter(z_ngram_cnt_both)
+      total_ngram_cnt = float(sum(list(z_ngram_cnt_both.values())))
+      writed = 0
+      for zb, f in z_ngram_cnt_both.most_common():
+        # if(f == 5): break
+        fd.write('state %dgram %s freq %d\n' % (n, zb, f))
+        wb_list = [(wb, z_ngram_both[zb][wb]) for wb in z_ngram_both[zb]]
+        wb_list.sort(key=lambda x: x[1])
+        wb_list.reverse()
+        z_ngram_both[zb] = wb_list
+
+        for wb, f in wb_list:
+          fd.write('%s %d | ' % (wb, f))
+        fd.write('\n----\n')
+        writed += f
+        if(writed / total_ngram_cnt > 0.9): break
         
     return z_ngram_stop, z_ngram_nostop
+
+  def write_output(self, filename, outputs):
+    return
 
   def val_end(self, outputs, n_iter, ei, bi, dataset, mode, output_path_base):
     """End of validation, output all state-word maps"""
@@ -686,8 +724,28 @@ class BertNet(FRModel):
     # TODO: add Viterbi decoding 
     # TODO: write sentence-state pairs 
     scores = dict()
+    special_ids = dataset.tokenizer.convert_tokens_to_ids(['[PAD]', '[SEP]', '[CLS]'])
+    self.aggregated_posterior[:, special_ids] = 0
 
-    # if(ei >= 0): # if ei = -1 then load pretrained model. In this case there is no aggregated posterior
+    ## write output states
+    if(mode == 'dev'):
+      filename = output_path_base + '_epoch_%d_state_seq.txt' % ei
+      pad_id = dataset.tokenizer.convert_tokens_to_ids('[PAD]')
+      with open(filename, 'w') as fd_outputs:
+        for out_dict in outputs:
+          for z, x in zip(out_dict['z_sample'], out_dict['input_ids']):
+            x_len = (x != pad_id).sum()
+            x = x[1:x_len - 1]
+            z = z[1:x_len - 1]
+            x_tokens = dataset.tokenizer.convert_ids_to_tokens(x)
+            for xi in x: fd_outputs.write('%d ' % xi)
+            fd_outputs.write('\n')
+            for zi in z: fd_outputs.write('%d ' % zi)
+            fd_outputs.write('\n')
+            for xt in x_tokens: fd_outputs.write('%s ' % xt)
+            fd_outputs.write('\n')
+
+    ## Write state word
     filename = output_path_base + '_epoch_%d_s2w.txt' % ei
     if(mode == 'dev'):
       print('Writing state-word aggregated posterior to %s' % filename)
@@ -707,6 +765,7 @@ class BertNet(FRModel):
     num_active_states = (z_freq_stats != 0).sum()
     scores['num_active_states'] = num_active_states
 
+    ## Write state to word and word to state according to aggregated posterior
     if(mode == 'dev'):
       ind = np.argsort(z_freq_stats)[::-1]
       # TODO: draw state frequency figure with static / dynamic portion
@@ -782,16 +841,18 @@ class BertNet(FRModel):
           fd.write('\n--------\n')
       fd.close()
 
-    scores['total_zero'] = total_zero
-    scores['w_ent'] = np.average(w_ent_mean)
-    scores['w_ent_zero'] = w_ent_zero
-    scores['ent_stopword'] = np.average(ent_stopword_mean)
-    scores['ent_stopword_zero'] = ent_stopword_zero
-    scores['ent_subword'] = np.average(ent_subword_mean)
-    scores['ent_subword_zero'] = ent_subword_zero
+      scores['total_zero'] = total_zero
+      scores['w_ent'] = np.average(w_ent_mean)
+      scores['w_ent_zero'] = w_ent_zero
+      scores['ent_stopword'] = np.average(ent_stopword_mean)
+      scores['ent_stopword_zero'] = ent_stopword_zero
+      scores['ent_subword'] = np.average(ent_subword_mean)
+      scores['ent_subword_zero'] = ent_subword_zero
 
+    ## Evaluation suite for testing alignment to defined labels
     if(mode == 'dev'):
-      state_eval_outputs, not_aligned_occ, latent_word_dict_repr = self.eval_suite.eval_state(outputs)
+      state_eval_outputs, not_aligned_occ, aligned_occ, latent_word_dict_repr =\
+        self.eval_suite.eval_state(outputs)
       scores.update(state_eval_outputs)
 
       with open(output_path_base + '_epoch_%d_not_aligned.txt' % ei, 'w') as fd:
@@ -803,32 +864,46 @@ class BertNet(FRModel):
             printed += 1
             if(printed == 10): break
           fd.write('\n\n')
+      
+      with open(output_path_base + '_epoch_%d_aligned.txt' % ei, 'w') as fd:
+        for l in aligned_occ: 
+          fd.write('state %d type %d occ %d\n' % (l[0], l[1], l[2]))
+          printed = 0
+          for w in latent_word_dict_repr[l[0]]:
+            fd.write('%s %d | ' % (w, latent_word_dict_repr[l[0]][w]))
+            printed += 1
+            if(printed == 10): break
+          fd.write('\n\n')
 
-    # # write state bigram 
-    # _, z_bigram_nostop = self.state_ngram_stats(
-    #   outputs, dataset, ei, 2, output_path_base)
 
-    # filename = output_path_base + '_epoch_%d_s2s.txt' % ei
-    # print('Writing state transition to %s' % filename)
-    # # TODO: add bigram instances
-    # with open(filename, 'w') as fd:
-    #   with torch.no_grad():
-    #     _, transition = self.model.get_transition()
-    #     transition = tmu.to_np(transition)
-    #     np.save(filename + '_epoch_%d_transition' % ei, transition)
-    #     ind = np.flip(np.argsort(transition, axis=-1), axis=-1)
-    #     for si in range(ind.shape[0]):
-    #       fd.write('state %d: \n' % si)
-    #       for i in ind[si][:10]:
-    #         fd.write('  to %d score %.4f\n    ' % (i, transition[si, i]))
-    #         transition_str = '%d-%d' % (si, i)
-    #         if(transition_str in z_bigram_nostop):
-    #           wb_list = z_bigram_nostop[transition_str]
-    #           for wb, f in wb_list:
-    #             fd.write('%s %d | ' % (wb, f))
-    #           fd.write('\n')
-    #         else: fd.write('not in frequent state bigram\n')
-    #       fd.write('\n----\n')
+    ## write state bigram according to dev outputs
+    if(mode == 'dev'):
+      z_ngram_stop, z_ngram_nostop = self.state_ngram_stats(
+        outputs, dataset, ei, 2, output_path_base)
+
+      filename = output_path_base + '_epoch_%d_s2s.txt' % ei
+      print('Writing state transition to %s' % filename)
+      # TODO: add bigram instances
+      with open(filename, 'w') as fd:
+        with torch.no_grad():
+          _, transition = self.model.get_transition()
+          transition = tmu.to_np(transition)
+          np.save(filename + '_epoch_%d_transition' % ei, transition)
+          ind = np.flip(np.argsort(transition, axis=-1), axis=-1)
+          for si in range(ind.shape[0]):
+            fd.write('state %d: \n' % si)
+            for i in ind[si][:10]:
+              fd.write('  to %d score %.4f\n    ' % (i, transition[si, i]))
+              transition_str = '%d-%d' % (si, i)
+              if(transition_str in z_ngram_nostop or transition_str in z_ngram_stop):
+                if(transition_str in z_ngram_nostop):
+                  wb_list = z_ngram_nostop[transition_str] 
+                else: wb_list = z_ngram_stop[transition_str] 
+                for wb, f in wb_list:
+                  fd.write('%s %d | ' % (wb, f))
+                fd.write('\n')
+              else: fd.write('not in frequent state ngram\n')
+            fd.write('\n----\n')
 
     # # write state trigram 
     # _, _ = self.state_ngram_stats(outputs, dataset, ei, 3, output_path_base)
