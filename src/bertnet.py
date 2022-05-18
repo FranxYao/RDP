@@ -771,6 +771,8 @@ class BertNet(FRModel):
       # TODO: draw state frequency figure with static / dynamic portion
       w_ent_mean = []
       w_ent_zero = 0
+      w_ent_content = []
+      w_ent_function = []
       ent_stopword_mean = [] # if stopwords and content words are mixed or seperated
       ent_stopword_zero = 0
       ent_subword_mean = []  # if subword and word stems are mixed or seperated
@@ -801,6 +803,9 @@ class BertNet(FRModel):
             z_freq_stats_no_sw[z_i]
             )
           )
+        if(z_freq_stats[z_i] - z_freq_stats_no_sw[z_i] > z_freq_stats_no_sw[z_i]):
+          w_ent_function.append(w_ent)
+        else: w_ent_content.append(w_ent)
         # write word
         w_ind = np.argsort(self.aggregated_posterior[z_i])[::-1]
         printed = 0
@@ -844,6 +849,8 @@ class BertNet(FRModel):
       scores['total_zero'] = total_zero
       scores['w_ent'] = np.average(w_ent_mean)
       scores['w_ent_zero'] = w_ent_zero
+      scores['w_ent_content'] = np.average(w_ent_content)
+      scores['w_ent_function'] = np.average(w_ent_function)
       scores['ent_stopword'] = np.average(ent_stopword_mean)
       scores['ent_stopword_zero'] = ent_stopword_zero
       scores['ent_subword'] = np.average(ent_subword_mean)
