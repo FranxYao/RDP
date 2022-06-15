@@ -12,3 +12,4 @@ __pycache__
 __MACOSX
 /data/BBN/*
 /src/dev/
+*.txt
