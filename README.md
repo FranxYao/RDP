@@ -26,3 +26,5 @@ Implementation of Linear-chain CRF RDP algorithms
 
 Implementation of TreeCRF RDP algorithms
 * 'src/rdp-exps/tree_crf.py'
+
+# For reproducing _Latent Topology Induction for Understanding Contextualized Representations_ (coming soon)
