@@ -1,8 +1,8 @@
 code for:
 
-Yao Fu, John Cunningham and Mirella Lapata, Scaling Structured Inference with Randomization. ICML 2022
+Yao Fu, John Cunningham and Mirella Lapata, [Scaling Structured Inference with Randomization](https://arxiv.org/abs/2112.03638). ICML 2022
 
-Yao Fu and Mirella Lapata, Latent Topology Induction for Understanding Contextualized Representations. Arxiv 2022
+Yao Fu and Mirella Lapata, [Latent Topology Induction for Understanding Contextualized Representations](https://arxiv.org/abs/2206.01512). Arxiv 2022
 
 
 # For reproducing _Scaling Structured Inference with Randomization_, table 2
