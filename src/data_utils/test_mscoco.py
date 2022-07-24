@@ -1,5 +1,5 @@
-%load_ext autoreload
-%autoreload 2
+# %load_ext autoreload
+# %autoreload 2
 
 from data_utils import MSCOCOData
 from transformers import GPT2Tokenizer, GPT2Model

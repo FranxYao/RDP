@@ -9,6 +9,7 @@ Yao Fu and Mirella Lapata, [Latent Topology Induction for Understanding Contextu
 
 Most experiemnts for table 2 are in:
 ```bash
+pip install requirements.txt
 cd src/rdp-exps
 ```
 
