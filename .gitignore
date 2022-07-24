@@ -13,3 +13,4 @@ __MACOSX
 /data/BBN/*
 /src/dev/
 *.txt
+!requirements.txt
